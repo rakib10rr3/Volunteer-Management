@@ -5,11 +5,10 @@
 
 include 'func.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['Login'])) {
 
 	$email = strtolower(validateInput(isset($_POST['email']) ? $_POST['email'] : ''));
 	$pword = isset($_POST['pword']) ? $_POST['pword'] : '';
-
 
 	if ($email == '' || $pword == '') {
 		echo "Fill All fields!";
@@ -27,6 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			if ($result->num_rows > 0) {
 
 				$row = $result->fetch_assoc();
+
+				//function:-->   password_verify ($passward,hash)
 
 				if (password_verify($pword, $row["user_password"])) {
 
@@ -54,13 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <form method="post" action="<?=htmlspecialchars($_SERVER['PHP_SELF']);?>">
-	<p>E-mail:</p>
-	<input type="text" name="email">
 
-	<p>Password:</p>
-	<input type="password" name="pword">
+    <label for="email">E-mail:</label>
+    <input type="text" name="email">
+
+    <label for="pword">Password:</label>
+    <input type="password" name="pword">
 
 	<br>
 
-	<input type="submit" value="Login">
+	<input type="submit" value="Login" name="Login">
 </form>

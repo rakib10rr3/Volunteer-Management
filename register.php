@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$pass_hash = password_hash($pword, PASSWORD_BCRYPT, ['cost' => 10]);
 
 		$user = new User();
-
 		$user->setEmail($email);
 		$user->setName($name);
 		$user->setPassword($pass_hash);

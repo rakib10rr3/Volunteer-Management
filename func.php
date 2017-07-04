@@ -25,7 +25,6 @@ function validateInput($data)
     $data = trim($data); //Strip unnecessary characters (extra space, tab, newline)
     $data = stripslashes($data); //Remove backslashes (\)
     $data = htmlspecialchars($data, ENT_NOQUOTES, 'UTF-8');
-
     return $data;
 }
 

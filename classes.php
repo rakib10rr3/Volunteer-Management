@@ -32,10 +32,14 @@ class User
 		// make new db object
         $db = new db_util();
 
+
+
         // Step 1: Check if the user already exist!
         $sql = "SELECT * 
         FROM vm_users 
         WHERE user_email='".$this->email."'";
+
+
 
         $result = $db->query($sql);
 
@@ -191,4 +195,5 @@ class User
 
         return $this;
     }
+
 }
