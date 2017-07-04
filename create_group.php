@@ -18,8 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Fill All fields!";
         exit();
     } else {
-
-
         $grp = new Group();
         $grp->setGrpName($grpName);
         $grp->setGrpPlace($grpPlace);
@@ -44,6 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     exit("Something Wrong!");
 
+
+
+
 }
 
 ?>
@@ -63,10 +64,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <p>Group Description: </p>
     <textarea name="grp_desc" cols="30" rows="10"></textarea>
     <p>Group Services: </p>
-    <input type="checkbox" name="grp_services[]" value="volunteer"> Volunteer
-    <input type="checkbox" name="grp_services[]" value="blood_donation"> Blood Donation
-    <input type="checkbox" name="grp_services[]" value="resource_collection"> Resource Collection
-
+    <?php
+    $db = new db_util();
+    $sql = "SELECT * FROM vm_services";
+    $result = $db->query($sql);
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc())  { ?>
+    <input type="checkbox" name="grp_services[]" value="<?php echo $row['vm_service_name'];?>"> <?php echo $row['vm_service_name'];?>
+    <?php } } ?>
     <br>
     <input type="submit" value="Submit">
 </form>

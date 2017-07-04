@@ -85,14 +85,14 @@ class db_util
                 // don't use ` instead of ' in query string. somethings it give error for unknown reason
                 self::$connection->query("create table  IF NOT EXISTS vm_group
 (
-	v_group_id int not null auto_increment
-		primary key,
-	v_group_name varchar(256) default '' null,
-	v_group_place  varchar(256) null,
-	v_group_description  text null,
-	v_group_services  text null,
-	v_group_member_number int null,
-	v_group_leader_id int null
+                    v_group_id int not null auto_increment
+                        primary key,
+                    v_group_name varchar(256) default '' null,
+                    v_group_place  varchar(256) null,
+                    v_group_description  text null,
+                    v_group_services  text null,
+                    v_group_member_number int null,
+                    v_group_leader_id int null
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('vm_group Creation failed!' . self::$connection->error);
             }
 
@@ -110,6 +110,19 @@ class db_util
 	vm_member_type varchar(256) null
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('vm_member_list Creation failed!' . self::$connection->error);
             }
+
+            /// service table
+            if (self::$connection->query("SHOW TABLES LIKE 'vm_services'")->num_rows == 0) {
+
+                // don't use ` instead of ' in query string. somethings it give error for unknown reason
+                self::$connection->query("create table  IF NOT EXISTS vm_services
+(
+	vm_service_id int not null auto_increment primary key,
+	vm_service_name  varchar(256) null
+  
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('vm_services Creation failed!' . self::$connection->error);
+            }
+
 
             return self::$connection;
         }
