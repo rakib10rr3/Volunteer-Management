@@ -11,8 +11,16 @@ date_default_timezone_set('Asia/Dhaka');
 /**
  * Include all common files
  */
+include 'globals.php';
 include 'db_util.php';
 include 'classes.php';
+
+/**
+ * Some settings
+ */
+# One year validity
+define("__COOKIES_EXPIRE_MAX__", 86400 * 365);
+
 
 /**
  *******************************************
