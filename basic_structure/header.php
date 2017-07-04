@@ -1,10 +1,10 @@
 <?php
-session_start();
-ob_start();
+    ob_start();
+
+    include 'func.php';
 
 /***
- * Generally common files should be added here ,,as this file is added to every other page
- *
+ * Generally common files should be added here, as this file is added to every other page.
  */
 
 ?>
@@ -13,20 +13,20 @@ ob_start();
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Volunteer Management</title>
+    <title><?=$GLOBALS['c_site_title']?></title>
 
 
     <!-- Bootstrap Core CSS -->
-    <link href="./assests/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="./assests/css/bootstrap.min.css" rel="stylesheet"> -->
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./assests/css/w3.css">
+    <link rel="stylesheet" href="./assests/css/style.css">
 
 
     <!-- jQuery -->
@@ -44,4 +44,4 @@ ob_start();
     <![endif]-->
 </head>
 
-<body >
+<body>

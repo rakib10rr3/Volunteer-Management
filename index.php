@@ -1,16 +1,14 @@
 <?php
 
-include 'func.php';
-include "Basic_structure/header.php";
-include "Basic_structure/navbar.php"
+include "basic_structure/header.php";
+include "basic_structure/navbar.php";
 
 ?>
 
-<a href="register.php">Register</a>
-<a href="login.php">Login</a>
+<p class="w3-jumbo w3-center">Welcome!</p>
 
 <?php
 
-include "Basic_structure/footer.php";
+include "basic_structure/footer.php";
 
 ?>

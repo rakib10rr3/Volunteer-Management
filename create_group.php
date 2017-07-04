@@ -3,10 +3,10 @@
  * Group Create Page
  */
 
-include 'func.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+include 'func.php';
 
     $grpName = validateInput(isset($_POST['grp_name']) ? $_POST['grp_name'] : '');
     $grpPlace = validateInput(isset($_POST['grp_place']) ? $_POST['grp_place'] : '');
@@ -42,39 +42,66 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     exit("Something Wrong!");
 
-
-
-
 }
 
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Groups</title>
-</head>
-<body>
+<?php
 
-<form method="post" action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-    <p>Group Name: </p>
-    <input type="text" name="grp_name">
-    <p>Group Place: </p>
-    <input type="text" name="grp_place">
-    <p>Group Description: </p>
-    <textarea name="grp_desc" cols="30" rows="10"></textarea>
-    <p>Group Services: </p>
+include "basic_structure/header.php";
+include "basic_structure/navbar.php"
+
+?>
+
+<form class="w3-container w3-card-4 ts-form ts-form-box" method="post" action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+    <p>
+    <label for="grp_name">Group Name</label>
+    <input class="w3-input w3-border w3-light-grey" id="grp_name" type="text" name="grp_name">
+    </p>
+
+    <p>
+    <label for="grp_place">Group Place</label>
+    <input class="w3-input w3-border w3-light-grey" id="grp_place" type="text" name="grp_place">
+    </p>
+
+    <p>
+    <label for="grp_desc">Group Description</label>
+    <textarea class="w3-input w3-border w3-light-grey" id="grp_desc" name="grp_desc" cols="30" rows="10"></textarea>
+    </p>
+
+    <p>
+    <label>Group Services:</label>
+    </p>
+    
     <?php
+
     $db = new db_util();
+    
     $sql = "SELECT * FROM vm_services";
+
     $result = $db->query($sql);
+
     if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc())  { ?>
-    <input type="checkbox" name="grp_services[]" value="<?php echo $row['vm_service_name'];?>"> <?php echo $row['vm_service_name'];?>
-    <?php } } ?>
-    <br>
-    <input type="submit" value="Submit">
+        while($row = $result->fetch_assoc())  { 
+    ?>
+        <p>
+        <input class="w3-check" type="checkbox" name="grp_services[]" value="<?php echo $row['vm_service_name'];?>">
+        <label><?php echo $row['vm_service_name'];?></label>
+        </p>
+    <?php 
+
+        } 
+    }
+
+    ?>
+
+    <p>
+    <input class="w3-btn w3-blue-grey" type="submit" value="Submit">
+    </p>
 </form>
 
-</body>
-</html>
+<?php
+
+include "basic_structure/footer.php";
+
+?>

@@ -110,19 +110,25 @@ include "basic_structure/navbar.php"
 
 ?>
 
-<div class="alert"></div>
+<div class="w3-panel w3-red w3-display-container ts-alert ts-alert-hide">
+	<span onclick="this.parentElement.style.display='none'"
+  class="w3-button w3-large w3-display-topright">&times;</span>
+  	<p></p>
+</div>
 
-<form class="ts-form" method="post" action="<?=htmlspecialchars($_SERVER['PHP_SELF']);?>">
+<form class="w3-container w3-card-4 ts-form ts-form-box" method="post" action="<?=htmlspecialchars($_SERVER['PHP_SELF']);?>">
 
-	<label for="email">E-mail:</label>
-	<input id="email" type="email" name="email">
-
-	<label for="pword">Password:</label>
-	<input id="pword" type="password" name="pword">
-
-	<br>
-
-	<input type="submit" value="Login">
+	<p>
+	<label for="email">E-mail</label>
+	<input class="w3-input w3-border w3-light-grey" id="email" type="email" name="email">
+	</p>
+	<p>
+	<label for="pword">Password</label>
+	<input class="w3-input w3-border w3-light-grey" id="pword" type="password" name="pword">
+	</p>
+	<p>
+	<input class="w3-btn w3-blue-grey" type="submit" value="Login">
+	</p>
 </form>
 
 
@@ -142,8 +148,10 @@ include "basic_structure/navbar.php"
             $pword = $("#pword").val();
 
             if ($uname == "" || $pword == "") {
-            	$(".alert").fadeIn();
-            	$(".alert").html('<strong>Error!</strong> Fill all fields!');
+            	$(".ts-alert").addClass("w3-red");
+            	$(".ts-alert p").html('<strong>Error!</strong> Fill all fields!');
+            	$(".ts-alert").fadeIn();
+
                 // Enable inputs
                 $('input').prop("disabled", false);
                 $('input[type="submit"]').prop("disabled", false);
@@ -163,10 +171,12 @@ include "basic_structure/navbar.php"
             	$obj = jQuery.parseJSON(data);
 
             	if ($obj.isLogin == true) {
-
-            		$(".alert").html($obj.message + 'You will auto redirect to home page. Otherwise you can click <a href="index.php">here</a> to go home.');
+					$(".ts-alert").removeClass("w3-red");
+            		$(".ts-alert").addClass("w3-green");
+            		$(".ts-alert p").html($obj.message + 'You will auto redirect to home page. Otherwise you can click <a href="index.php">here</a> to go home.');
 
             		$(".ts-form").fadeOut();
+            		$(".ts-alert").fadeIn();
 
                     // JS function to redirect
                     setTimeout(function () {
@@ -174,8 +184,9 @@ include "basic_structure/navbar.php"
                     }, 5000);
                 }
                 else {
-                	$(".alert").fadeIn();
-                	$(".alert").html('<strong>' + $obj.title + '</strong> ' + $obj.message);
+                	$(".ts-alert p").html('<strong>' + $obj.title + '</strong> ' + $obj.message);
+                	$(".ts-alert").addClass("w3-red");
+                	$(".ts-alert").fadeIn();
 
                     // Enable inputs
                     $('input').prop("disabled", false);

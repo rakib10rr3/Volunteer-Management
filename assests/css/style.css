@@ -1,0 +1,54 @@
+/**
+ * Custom
+ */
+body {
+	background-color: #F5F5F5;
+}
+
+.main-container {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+/**
+ * Alert
+ */
+.ts-alert.ts-alert-hide {
+	display: none;
+}
+
+/**
+ * Form
+ */
+.ts-form {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+.ts-form.ts-form-box {
+    background-color: #fff;
+    padding: 15px;
+}
+
+/**
+ * Footer
+ */
+footer {
+	margin-top: 16px;
+}
+
+.ts-footer-copyright {
+	text-align: center;
+}
+
+/**
+ * OVERRIDES of w3.css
+ */
+
+.w3-cyan {
+    background-color: #42AFBF !important;
+}
+
+.w3-button:hover {
+    text-decoration: none;
+}
