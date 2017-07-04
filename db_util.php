@@ -1,16 +1,49 @@
 <?php
+
 /**
-* Main Database Class
-*/
+ * Main Database Class
+ */
+class db_util
+{
 
-class db_util {
+    /**
+     * Main Connection
+     */
+    protected static $connection;
 
-	/**
-	* Main Connection
-	*/
-	protected static $connection;
+    /**
+     * Fetch rows from the database and
+     * return as an Array
+     */
+    public function select($query)
+    {
+        $rows = array();
+        $result = $this->query($query);
+        if ($result === false) {
+            return false;
+        }
+        while ($row = $result->fetch_assoc()) {
+            $rows[] = $row;
+        }
 
-	/**
+        return $rows;
+    }
+
+    /**
+     * Query the database.
+     */
+    public function query($query)
+    {
+        // Connect to the database
+        $connection = $this->connect();
+
+        // Query the database
+        $result = $connection->query($query);
+
+        return $result;
+    }
+
+    /**
      * Connect to the database.
      */
     public function connect()
@@ -47,50 +80,49 @@ class db_util {
                 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('Table 1 Creation failed!' . self::$connection->error);
             }
 
+            if (self::$connection->query("SHOW TABLES LIKE 'vm_group'")->num_rows == 0) {
+
+                // don't use ` instead of ' in query string. somethings it give error for unknown reason
+                self::$connection->query("create table  IF NOT EXISTS vm_group
+(
+	v_group_id int not null auto_increment
+		primary key,
+	v_group_name varchar(256) default '' null,
+	v_group_place COLLATE utf8_unicode_ci varchar(256) null,
+	v_group_description COLLATE utf8_unicode_ci text null,
+	v_group_services COLLATE utf8_unicode_ci text null,
+	v_group_member_number int null,
+	v_group_leader_id int null
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('Table 2 Creation failed!' . self::$connection->error);
+            }
+
+            if (self::$connection->query("SHOW TABLES LIKE 'vm_users'")->num_rows == 0) {
+
+                // don't use ` instead of ' in query string. somethings it give error for unknown reason
+                self::$connection->query("create table  IF NOT EXISTS vm_member_list
+(
+	vm_member_list_id int not null auto_increment
+		primary key,
+	vm_group_id int null,
+	vm_member_name COLLATE utf8_unicode_ci varchar(256) null,
+	vm_member_email varchar(256) null,
+	vm_member_phone COLLATE utf8_unicode_ci varchar(256) null,
+	vm_member_type varchar(256) null
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('Table 1 Creation failed!' . self::$connection->error);
+            }
+
             return self::$connection;
         }
 
     }
 
     /**
-	* Query the database.
-	*/
-	public function query($query)
-	{
-		// Connect to the database
-		$connection = $this->connect();
-
-		// Query the database
-		$result = $connection->query($query);
-
-		return $result;
-	}
-
-	/**
-	* Fetch rows from the database and
-	* return as an Array
-	*/
-	public function select($query)
-	{
-		$rows = array();
-		$result = $this->query($query);
-		if ($result === false) {
-			return false;
-		}
-		while ($row = $result->fetch_assoc()) {
-			$rows[] = $row;
-		}
-
-		return $rows;
-	}
-
-	/**
-	* Prepare the database.
-	*
-	* @param $query string The query string
-	*
-	* @return boolean result of the mysqli::prepare() function
- 	*/
+     * Prepare the database.
+     *
+     * @param $query string The query string
+     *
+     * @return boolean result of the mysqli::prepare() function
+     */
     public function prepare($query)
     {
         // Connect to the database
@@ -106,7 +138,6 @@ class db_util {
     {
         return self::$connection->error;
     }
-
 
 
 }

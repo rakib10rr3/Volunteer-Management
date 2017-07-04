@@ -6,8 +6,8 @@
     </button>
 
 
-    <a href="./login.php" class="w3-bar-item w3-button w3-hover-blue">Login</a>;
-    <a href="./register.php" class="w3-bar-item w3-button w3-hover-blue">Sign Up</a>;
+    <a href="./login.php" class="w3-bar-item w3-button w3-hover-blue">Login</a>
+    <a href="./register.php" class="w3-bar-item w3-button w3-hover-blue">Sign Up</a>
 
 </div>
 
