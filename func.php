@@ -31,6 +31,7 @@ define("__COOKIES_EXPIRE_MAX__", 86400 * 365);
 
 function validateInput($data)
 {
+    echo  $data;
     $data = trim($data); //Strip unnecessary characters (extra space, tab, newline)
     $data = stripslashes($data); //Remove backslashes (\)
     $data = htmlspecialchars($data, ENT_NOQUOTES, 'UTF-8');
