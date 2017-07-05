@@ -372,3 +372,151 @@ class Group
     }
 
 }
+class Member
+{
+    private $memberName;
+    private $memberEmail;
+    //  private $memberGrp;
+    private $memberPhone;
+    private $memberType;
+    private $memberInterest;
+    public function __construct()
+    {
+
+    }
+    public function update()
+    {
+
+    }
+
+    /**
+     * @return mixed
+     */
+    public function add()
+    {
+
+        $db = new db_util();
+
+
+        $memjoin = $db->prepare('INSERT INTO vm_member_list(vm_member_name, vm_member_email, vm_member_phone, vm_member_type,vm_member_interest)
+            		VALUES(?, ?, ?, ?, ?)');
+
+        $_memberName = $this->memberName;
+        $_memberEmail = $this->memberEmail;
+        $_memberPhone = $this->memberPhone;
+        $_memberType = $this->memberType;
+        $_memberInterest = $this->memberInterest;
+        echo $db->getError();
+
+        $memjoin->bind_param('sssss', $_memberName, $_memberEmail, $_memberPhone, $_memberType,$_memberInterest);
+        //echo $_memberPhone;
+        $result = $memjoin->execute();
+
+        if ($result === true) {
+            $new_user_id = $memjoin->insert_id;
+            return $new_user_id;
+        }
+
+        return false; // anything wrong then return 0
+
+    }
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     *
+     * @return self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMemberName()
+    {
+        return $this->memberName;
+    }
+
+    /**
+     * @param mixed $name
+     *
+     * @return self
+     */
+    public function setMemberName($name)
+    {
+        $this->memberName = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMemberEmail()
+    {
+        return $this->memberEmail;
+    }
+
+    /**
+     * @param mixed $place
+     *
+     * @return self
+     */
+    public function setMemberEmail($email)
+    {
+        $this->memberEmail = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMemberGrp()
+    {
+        return $this->memberGrp;
+    }
+
+    /**
+     * @param mixed $description
+     *
+     * @return self
+     */
+    public function setMemberGrp($memgrp)
+    {
+        $this->memberGrp = $memgrp;
+
+        return $this;
+    }
+
+    public function getMemberPhone()
+    {
+        return $this->memberPhone;
+    }
+    public function setMemberPhone($phone)
+    {
+        $this->memberPhone = $phone;
+
+        return $this;
+    }
+
+    public function setMemberType($memtype)
+    {
+        $this->memberType = $memtype;
+        return $this;
+    }
+    public function setMemberInterest($memint)
+    {
+        $this->memberInterest = implode(", ",$memint);
+        return $this;
+    }
+
+}
