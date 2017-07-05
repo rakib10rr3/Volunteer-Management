@@ -372,12 +372,17 @@ class Group
     }
 
 }
+
+
 class Member
 {
+    private $memberID;
     private $memberName;
     private $memberEmail;
     //  private $memberGrp;
     private $memberPhone;
+    private $memberAge;
+    private $memberGender;
     private $memberType;
     private $memberInterest;
     public function __construct()
@@ -386,7 +391,30 @@ class Member
     }
     public function update()
     {
+        $db = new db_util();
 
+
+        $memUpdate = $db->prepare('UPDATE vm_member_list SET vm_member_name = ?,  vm_member_phone = ?, vm_member_type = ? , vm_member_age = ?, vm_member_gender = ? WHERE vm_member_list_id = '.$this->memberID);
+
+        $_memberName = $this->memberName;
+        $_memberPhone = $this->memberPhone;
+        $_memberType = $this->memberType;
+        $_memberAge = $this->memberAge;
+        $_memberGender = $this->memberGender;
+       // $_memberInterest = $this->memberInterest;
+        echo $db->getError();
+
+        $memUpdate->bind_param('sssis', $_memberName, $_memberPhone, $_memberType, $_memberAge,$_memberGender);
+        //echo $_memberPhone;
+        $result = $memUpdate->execute();
+
+        if ($result === true) {
+           // $new_user_id = $memUpdate->insert_id;
+            header("Location:profile.php?id=".$this->memberID);
+           // return $new_user_id;
+        }
+
+        return false; // anything wrong then return 0
     }
 
     /**
@@ -420,9 +448,9 @@ class Member
         return false; // anything wrong then return 0
 
     }
-    public function getId()
+    public function getMemberId()
     {
-        return $this->id;
+        return $this->memberID;
     }
 
     /**
@@ -430,9 +458,9 @@ class Member
      *
      * @return self
      */
-    public function setId($id)
+    public function setMemberID($id)
     {
-        $this->id = $id;
+        $this->memberID = $id;
 
         return $this;
     }
@@ -486,13 +514,13 @@ class Member
     }
 
     /**
-     * @param mixed $description
+     * @param mixed
      *
      * @return self
      */
-    public function setMemberGrp($memgrp)
+    public function setMemberGrp($memGrp)
     {
-        $this->memberGrp = $memgrp;
+        $this->memberGrp = $memGrp;
 
         return $this;
     }
@@ -508,12 +536,41 @@ class Member
         return $this;
     }
 
-    public function setMemberType($memtype)
+    public function setMemberType($memType)
     {
-        $this->memberType = $memtype;
+        $this->memberType = $memType;
         return $this;
     }
-    public function setMemberInterest($memint)
+
+    public function getMemberType()
+    {
+        return $this->memberType;
+    }
+
+    public function setMemberGender($memGender)
+    {
+        $this->memberGender = $memGender;
+        return $this;
+    }
+
+    public function getMemberGender()
+    {
+        return $this->memberGender;
+    }
+
+    public function setMemberAge($memAge)
+    {
+        $this->memberAge = $memAge;
+        return $this;
+    }
+
+    public function getMemberAge()
+    {
+        return $this->memberAge;
+    }
+
+
+    public function setMemberInterest($memInterest)
     {
         $this->memberInterest = implode(", ",$memint);
         return $this;

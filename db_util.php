@@ -108,6 +108,9 @@ class db_util
 	vm_member_email varchar(256) null,
 	vm_member_phone  varchar(256) null,
 	vm_member_type varchar(256) null,
+	vm_member_age int null,
+	vm_member_gender varchar(256) null,
+	vm_member_picture varchar(256) null,
 	vm_member_interest text null
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('vm_member_list Creation failed!' . self::$connection->error);
             }
