@@ -5,13 +5,38 @@
     </button>
 
     <a href="./index.php" class="w3-bar-item w3-button w3-hover-cyan">Home</a>
+
+<?php
+
+    if (isUserLoggedIn())
+    {
+
+?>
+
+    <a href="./logout.php" class="w3-bar-item w3-button w3-hover-cyan">Logout</a>
+
+<?php
+
+
+    } else {
+
+?>
+
     <a href="./login.php" class="w3-bar-item w3-button w3-hover-cyan">Login</a>
     <a href="./register.php" class="w3-bar-item w3-button w3-hover-cyan">Sign Up</a>
+
+<?php
+
+    }
+
+?>
+
     <hr>
-    <!-- for testing purpus -->
+    <!-- for testing purpose -->
     <a href="./create_group.php" class="w3-bar-item w3-button w3-hover-cyan">Create Group</a>
     <a href="./group_details.php" class="w3-bar-item w3-button w3-hover-cyan">Group Details</a>
     <a href="./group_search.php" class="w3-bar-item w3-button w3-hover-cyan">Group Search</a>
+    <a href="./join_group.php" class="w3-bar-item w3-button w3-hover-cyan">Join Group</a>
 
 </div>
 

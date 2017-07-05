@@ -1,7 +1,7 @@
 <?php
     ob_start();
 
-    include 'func.php';
+    include_once 'func.php';
 
 /***
  * Generally common files should be added here, as this file is added to every other page.

@@ -9,10 +9,10 @@
  * Group Create Page
  */
 
-include 'func.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+    include 'func.php';
 
     $memberName = validateInput(isset($_POST['member_name']) ? $_POST['member_name'] : '');
     $memberEmail = validateInput(isset($_POST['member_email']) ? $_POST['member_email'] : '');
@@ -42,12 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 }
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Member join</title>
-</head>
-<body>
+
+<?php
+
+include "basic_structure/header.php";
+include "basic_structure/navbar.php";
+
+?>
 
 <form method="post" action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>">
     <p>Name: </p>
@@ -89,5 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <input type="submit" value="Submit">
 </form>
 
-</body>
-</html>
+<?php
+
+include "basic_structure/footer.php";
+
+?>
