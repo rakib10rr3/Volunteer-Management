@@ -95,19 +95,19 @@ include "basic_structure/navbar.php";
 <form class="w3-container w3-card-4 ts-form ts-form-box" method="post" action="<?=htmlspecialchars($_SERVER['PHP_SELF']);?>">
 	<p>
 	<label for="uname">Name</label>
-	<input class="w3-input w3-border w3-light-grey" id="uname" type="text" name="uname">
+	<input class="w3-input w3-border w3-light-grey" id="uname" type="text" name="uname" required>
 	</p>
 	<p>
 	<label for="email">E-mail</label>
-	<input class="w3-input w3-border w3-light-grey" id="email" type="email" name="email">
+	<input class="w3-input w3-border w3-light-grey" id="email" type="email" name="email" required>
 	</p>
 	<p>
 	<label for="pword1">Password</label>
-	<input class="w3-input w3-border w3-light-grey" id="pword1" type="password" name="pword">
+	<input class="w3-input w3-border w3-light-grey" id="pword1" type="password" name="pword" required>
 	</p>
 	<p>
 	<label for="pword2">Password (Again)</label>
-	<input class="w3-input w3-border w3-light-grey" id="pword2" type="password" name="pwordagain">
+	<input class="w3-input w3-border w3-light-grey" id="pword2" type="password" name="pwordagain" required>
 	</p>
 	<p>
 	<input class="w3-btn w3-blue-grey" type="submit" value="Submit">

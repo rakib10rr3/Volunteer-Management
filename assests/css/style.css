@@ -2,13 +2,70 @@
  * Custom
  */
 body {
-	background-color: #F5F5F5;
+	background-color: #F1F1F1;
 }
 
 .main-container {
-	padding-top: 15px;
+	padding-top: 67px;
 	padding-bottom: 15px;
 }
+
+/**
+ * Main Bar (top)
+ */
+.ts-nav-bar {
+    position: fixed;
+    width: 100%;
+    box-shadow: 0px 1px 7px rgba(0,0,0,.25);
+}
+
+.ts-main-menu {
+	float: left;
+	color: #fff !important;
+}
+
+.ts-site-title {
+    display: inline-block;
+    font-family: Georgia;
+    margin: 0 16px;
+    color: #fff;
+    font-weight: bold;
+    height: 52px;
+    font-size: 26px;
+    line-height: 52px;
+}
+
+/**
+ * Disaster going (call for help)
+ */
+.ts-disaster-box-title p {
+    color: #0097A7;
+    font-weight: bold;
+}
+
+.ts-disaster-title {
+	margin: 2px 0;
+	font-weight: bold;
+}
+
+.ts-disaster-type {
+	margin: 2px 0;
+	font-size: 14px;
+	color: #333;
+}
+
+.ts-disaster-loc {
+	margin: 2px 0;
+	font-size: 14px;
+	color: #333;
+}
+
+.ts-disaster-start {
+	margin: 2px 0;
+	font-size: 14px;
+	color: #333;
+}
+
 
 /**
  * Alert

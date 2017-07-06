@@ -6,7 +6,7 @@
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-	include 'func.php';
+	include_once 'func.php';
 
 	/**
 	 * Result values
@@ -120,11 +120,11 @@ include "basic_structure/navbar.php"
 
 	<p>
 	<label for="email">E-mail</label>
-	<input class="w3-input w3-border w3-light-grey" id="email" type="email" name="email">
+	<input class="w3-input w3-border w3-light-grey" id="email" type="email" name="email" required>
 	</p>
 	<p>
 	<label for="pword">Password</label>
-	<input class="w3-input w3-border w3-light-grey" id="pword" type="password" name="pword">
+	<input class="w3-input w3-border w3-light-grey" id="pword" type="password" name="pword" required>
 	</p>
 	<p>
 	<input class="w3-btn w3-blue-grey" type="submit" value="Login">

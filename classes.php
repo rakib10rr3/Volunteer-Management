@@ -6,38 +6,38 @@
 class User
 {
 
-	private $id;
-	private $name;
-	private $email;
-	private $password;
+    private $id;
+    private $name;
+    private $email;
+    private $password;
 
-	public function __construct()
-	{
+    public function __construct()
+    {
 
-	}
+    }
 
-	public function isUserExistByEmail($user_email)
-	{
+    public function isUserExistByEmail($user_email)
+    {
         // make new db object
-		$db = new db_util();
+        $db = new db_util();
 
-		$sql = "SELECT * 
-		FROM vm_users 
-		WHERE user_email='" . $user_email . "'";
+        $sql = "SELECT * 
+        FROM vm_users 
+        WHERE user_email='" . $user_email . "'";
 
-		$result = $db->query($sql);
+        $result = $db->query($sql);
 
-		if($result===false)
-		{
-			return true;
-		}
+        if($result===false)
+        {
+            return true;
+        }
 
-		if ($result->num_rows > 0) {
-			return true;
-		}
+        if ($result->num_rows > 0) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
     /**
      * Add New User
@@ -48,7 +48,7 @@ class User
     {
 
         // Check all value exist!
-    	if ($this->name == "" || $this->email == "" || $this->password == "") {
+        if ($this->name == "" || $this->email == "" || $this->password == "") {
             return 0; // all value not found!
         }
 
@@ -57,7 +57,7 @@ class User
 
 
         $stmt = $db->prepare('INSERT INTO vm_users(user_name, user_email, user_password)
-        	VALUES(?, ?, ?)');
+            VALUES(?, ?, ?)');
 
         $_name = $this->name;
         $_email = $this->email;
@@ -70,8 +70,8 @@ class User
         $result = $stmt->execute();
 
         if ($result === true) {
-        	$new_user_id = $stmt->insert_id;
-        	return $new_user_id;
+            $new_user_id = $stmt->insert_id;
+            return $new_user_id;
         }
         
         
@@ -86,26 +86,26 @@ class User
     public function loadUserByEmail($user_email)
     {
 
-    	$sql = "SELECT * FROM vm_user WHERE user_email='$user_email'";
-    	$result = $this->query($sql);
+        $sql = "SELECT * FROM vm_user WHERE user_email='$user_email'";
+        $result = $this->query($sql);
 
-    	if ($result !== false) {
+        if ($result !== false) {
             // if there any error in sql then it will false
-    		if ($result->num_rows > 0) {
+            if ($result->num_rows > 0) {
 
-    			$row = $result->fetch_assoc();
+                $row = $result->fetch_assoc();
 
-    			$this->setId($row['user_id']);
-    			$this->setName($row['user_name']);
-    			$this->setEmail($row['user_email']);
-    			$this->setPassword($row['user_password']);
+                $this->setId($row['user_id']);
+                $this->setName($row['user_name']);
+                $this->setEmail($row['user_email']);
+                $this->setPassword($row['user_password']);
 
-    			return true;
+                return true;
 
-    		}
-    	}
+            }
+        }
 
-    	return false;
+        return false;
     }
 
     /**
@@ -121,7 +121,7 @@ class User
      */
     public function getId()
     {
-    	return $this->id;
+        return $this->id;
     }
 
     /**
@@ -131,9 +131,9 @@ class User
      */
     public function setId($id)
     {
-    	$this->id = $id;
+        $this->id = $id;
 
-    	return $this;
+        return $this;
     }
 
     /**
@@ -141,7 +141,7 @@ class User
      */
     public function getName()
     {
-    	return $this->name;
+        return $this->name;
     }
 
     /**
@@ -151,9 +151,9 @@ class User
      */
     public function setName($name)
     {
-    	$this->name = $name;
+        $this->name = $name;
 
-    	return $this;
+        return $this;
     }
 
     /**
@@ -161,7 +161,7 @@ class User
      */
     public function getEmail()
     {
-    	return $this->email;
+        return $this->email;
     }
 
     /**
@@ -171,9 +171,9 @@ class User
      */
     public function setEmail($email)
     {
-    	$this->email = $email;
+        $this->email = $email;
 
-    	return $this;
+        return $this;
     }
 
     /**
@@ -181,7 +181,7 @@ class User
      */
     public function getPassword()
     {
-    	return $this->password;
+        return $this->password;
     }
 
     /**
@@ -191,9 +191,9 @@ class User
      */
     public function setPassword($password)
     {
-    	$this->password = $password;
+        $this->password = $password;
 
-    	return $this;
+        return $this;
     }
 
 }
@@ -201,18 +201,18 @@ class User
 
 class Group
 {
-	private $grpName;
-	private $grpPlace;
-	private $grpDescription;
-	private $grpServices;
-	private $grpLeader;
+    private $grpName;
+    private $grpPlace;
+    private $grpDescription;
+    private $grpServices;
+    private $grpLeader;
 
 
 
-	public function __construct()
-	{
+    public function __construct()
+    {
 
-	}
+    }
 
     /**
      * Add New User
@@ -221,7 +221,7 @@ class Group
     {
 
         // Check all value exist!
-    	if ($this->grpName == "" || $this->grpPlace == "" || $this->grpDescription == "" || $this->grpServices == "" ) {
+        if ($this->grpName == "" || $this->grpPlace == "" || $this->grpDescription == "" || $this->grpServices == "" ) {
             return 0; // all value not found!
         }
 
@@ -241,29 +241,29 @@ class Group
         if ($result === false) {
             return false; // something wrong! canno execute the sql!
         } else {
-        	if ($result->num_rows > 0) {
+            if ($result->num_rows > 0) {
                 return false; // already have user with the $email
             } else {
 
-            	$stmt = $db->prepare('INSERT INTO vm_group(v_group_name, v_group_place, v_group_description, v_group_services)
-            		VALUES(?, ?, ?, ?)');
+                $stmt = $db->prepare('INSERT INTO vm_group(v_group_name, v_group_place, v_group_description, v_group_services)
+                    VALUES(?, ?, ?, ?)');
 
-            	$_grpName = $this->grpName;
-            	$_grpPlace = $this->grpPlace;
-            	$_grpDescription = $this->grpDescription;
-            	$_grpServices = $this->grpServices;
+                $_grpName = $this->grpName;
+                $_grpPlace = $this->grpPlace;
+                $_grpDescription = $this->grpDescription;
+                $_grpServices = $this->grpServices;
                // $_grpLeader = $this->grpLeader;
 
-            	echo $db->getError();
+                echo $db->getError();
 
-            	$stmt->bind_param('ssss', $_grpName, $_grpPlace, $_grpDescription, $_grpServices);
+                $stmt->bind_param('ssss', $_grpName, $_grpPlace, $_grpDescription, $_grpServices);
 
-            	$result = $stmt->execute();
+                $result = $stmt->execute();
 
-            	if ($result === true) {
-            		$new_user_id = $stmt->insert_id;
-            		return $new_user_id;
-            	}
+                if ($result === true) {
+                    $new_user_id = $stmt->insert_id;
+                    return $new_user_id;
+                }
             }
         }
 
@@ -285,7 +285,7 @@ class Group
      */
     public function getId()
     {
-    	return $this->id;
+        return $this->id;
     }
 
     /**
@@ -295,9 +295,9 @@ class Group
      */
     public function setId($id)
     {
-    	$this->id = $id;
+        $this->id = $id;
 
-    	return $this;
+        return $this;
     }
 
     /**
@@ -305,7 +305,7 @@ class Group
      */
     public function getGrpName()
     {
-    	return $this->grpName;
+        return $this->grpName;
     }
 
     /**
@@ -315,9 +315,9 @@ class Group
      */
     public function setGrpName($name)
     {
-    	$this->grpName = $name;
+        $this->grpName = $name;
 
-    	return $this;
+        return $this;
     }
 
     /**
@@ -325,7 +325,7 @@ class Group
      */
     public function getGrpPlace()
     {
-    	return $this->grpPlace;
+        return $this->grpPlace;
     }
 
     /**
@@ -335,9 +335,9 @@ class Group
      */
     public function setGrpPlace($place)
     {
-    	$this->grpPlace = $place;
+        $this->grpPlace = $place;
 
-    	return $this;
+        return $this;
     }
 
     /**
@@ -345,7 +345,7 @@ class Group
      */
     public function getGrpDescription()
     {
-    	return $this->grpDescription;
+        return $this->grpDescription;
     }
 
     /**
@@ -355,29 +355,34 @@ class Group
      */
     public function setGrpDescription($description)
     {
-    	$this->grpDescription = $description;
+        $this->grpDescription = $description;
 
-    	return $this;
+        return $this;
     }
 
     public function getGrpServices()
     {
-    	return $this->grpServices;
+        return $this->grpServices;
     }
 
     public function setGrpServices($services)
     {
-    	$this->grpServices = implode(", ",$services);
-    	return $this;
+        $this->grpServices = implode(", ",$services);
+        return $this;
     }
 
 }
+
+
 class Member
 {
+    private $memberID;
     private $memberName;
     private $memberEmail;
     //  private $memberGrp;
     private $memberPhone;
+    private $memberAge;
+    private $memberGender;
     private $memberType;
     private $memberInterest;
     public function __construct()
@@ -386,7 +391,30 @@ class Member
     }
     public function update()
     {
+        $db = new db_util();
 
+
+        $memUpdate = $db->prepare('UPDATE vm_member_list SET vm_member_name = ?,  vm_member_phone = ?, vm_member_type = ? , vm_member_age = ?, vm_member_gender = ? WHERE vm_member_list_id = '.$this->memberID);
+
+        $_memberName = $this->memberName;
+        $_memberPhone = $this->memberPhone;
+        $_memberType = $this->memberType;
+        $_memberAge = $this->memberAge;
+        $_memberGender = $this->memberGender;
+       // $_memberInterest = $this->memberInterest;
+        echo $db->getError();
+
+        $memUpdate->bind_param('sssis', $_memberName, $_memberPhone, $_memberType, $_memberAge,$_memberGender);
+        //echo $_memberPhone;
+        $result = $memUpdate->execute();
+
+        if ($result === true) {
+           // $new_user_id = $memUpdate->insert_id;
+            header("Location:profile.php?id=".$this->memberID);
+           // return $new_user_id;
+        }
+
+        return false; // anything wrong then return 0
     }
 
     /**
@@ -399,7 +427,7 @@ class Member
 
 
         $memjoin = $db->prepare('INSERT INTO vm_member_list(vm_member_name, vm_member_email, vm_member_phone, vm_member_type,vm_member_interest)
-            		VALUES(?, ?, ?, ?, ?)');
+                    VALUES(?, ?, ?, ?, ?)');
 
         $_memberName = $this->memberName;
         $_memberEmail = $this->memberEmail;
@@ -420,9 +448,9 @@ class Member
         return false; // anything wrong then return 0
 
     }
-    public function getId()
+    public function getMemberId()
     {
-        return $this->id;
+        return $this->memberID;
     }
 
     /**
@@ -430,9 +458,9 @@ class Member
      *
      * @return self
      */
-    public function setId($id)
+    public function setMemberID($id)
     {
-        $this->id = $id;
+        $this->memberID = $id;
 
         return $this;
     }
@@ -486,13 +514,13 @@ class Member
     }
 
     /**
-     * @param mixed $description
+     * @param mixed
      *
      * @return self
      */
-    public function setMemberGrp($memgrp)
+    public function setMemberGrp($memGrp)
     {
-        $this->memberGrp = $memgrp;
+        $this->memberGrp = $memGrp;
 
         return $this;
     }
@@ -508,15 +536,245 @@ class Member
         return $this;
     }
 
-    public function setMemberType($memtype)
+    public function setMemberType($memType)
     {
-        $this->memberType = $memtype;
+        $this->memberType = $memType;
         return $this;
     }
-    public function setMemberInterest($memint)
+
+    public function getMemberType()
+    {
+        return $this->memberType;
+    }
+
+    public function setMemberGender($memGender)
+    {
+        $this->memberGender = $memGender;
+        return $this;
+    }
+
+    public function getMemberGender()
+    {
+        return $this->memberGender;
+    }
+
+    public function setMemberAge($memAge)
+    {
+        $this->memberAge = $memAge;
+        return $this;
+    }
+
+    public function getMemberAge()
+    {
+        return $this->memberAge;
+    }
+
+
+    public function setMemberInterest($memInterest)
     {
         $this->memberInterest = implode(", ",$memint);
         return $this;
     }
 
+}
+
+
+class Disaster {
+
+/*
+    vm_disaster_id int not null auto_increment
+        primary key,
+    vm_disaster_name varchar(256) not null,
+    vm_disaster_locations  varchar(256) not null,
+    vm_disaster_type int not null,
+    vm_disaster_start DATETIME not null,
+    vm_disaster_expire  DATETIME not null
+    */
+   
+    const disaster_type = array(
+        1 => "Flood", 
+        2 => "Cyclone", 
+        3 => "Hill", 
+        4 => "Donation"
+        );
+
+   
+    private $id;
+    private $name;
+    private $location;
+    private $type;
+    private $start;
+    private $expire;
+
+    public function __construct()
+    {
+
+    }
+
+    /**
+     * Add New User
+     *
+     * MUST: before call this must check if the user already exist with this email!
+     */
+    public function add()
+    {
+
+        // Check all value exist!
+        if ($this->name == "" || $this->location == "" || $this->type == "" || $this->start == "" || $this->expire == "") {
+            return false; // all value not found!
+        }
+
+        // make new db object
+        $db = new db_util();
+
+
+        $stmt = $db->prepare('INSERT INTO vm_disaster(vm_disaster_name, vm_disaster_locations, vm_disaster_type, vm_disaster_start, vm_disaster_expire)
+            VALUES(?, ?, ?, ?, ?)');
+
+        $_name = $this->name;
+        $_location = $this->location;
+        $_type = $this->type;
+        $_start = $this->start;
+        $_expire = $this->expire;
+
+        //echo $db->getError();
+
+        $stmt->bind_param('sssss', $_name, $_location, $_type, $_start, $_expire);
+
+        $result = $stmt->execute();
+
+        if ($result === true) {
+            $new_user_id = $stmt->insert_id;
+            return $new_user_id;
+        }
+
+        return false; // anything wrong then return 0
+
+    }
+
+    public function getDisasterNameById($disaster_id)
+    {
+        return self::disaster_type[$disaster_id];
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     *
+     * @return self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     *
+     * @return self
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param mixed $location
+     *
+     * @return self
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     *
+     * @return self
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStart()
+    {
+        return $this->start;
+    }
+
+    /**
+     * @param mixed $start
+     *
+     * @return self
+     */
+    public function setStart($start)
+    {
+        $this->start = $start;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExpire()
+    {
+        return $this->expire;
+    }
+
+    /**
+     * @param mixed $expire
+     *
+     * @return self
+     */
+    public function setExpire($expire)
+    {
+        $this->expire = $expire;
+
+        return $this;
+    }
 }

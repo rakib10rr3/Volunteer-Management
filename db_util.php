@@ -83,9 +83,9 @@ class db_util
             if (self::$connection->query("SHOW TABLES LIKE 'vm_group'")->num_rows == 0) {
 
                 // don't use ` instead of ' in query string. somethings it give error for unknown reason
-                self::$connection->query("create table  IF NOT EXISTS vm_group
+                self::$connection->query("CREATE TABLE IF NOT EXISTS vm_group
 (
-                    v_group_id int not null auto_increment
+                    v_group_id int not null AUTO_INCREMENT
                         primary key,
                     v_group_name varchar(256) default '' null,
                     v_group_place  varchar(256) null,
@@ -99,9 +99,9 @@ class db_util
             if (self::$connection->query("SHOW TABLES LIKE 'vm_member_list'")->num_rows == 0) {
 
                 // don't use ` instead of ' in query string. somethings it give error for unknown reason
-                self::$connection->query("create table  IF NOT EXISTS vm_member_list
+                self::$connection->query("CREATE TABLE IF NOT EXISTS vm_member_list
 (
-	vm_member_list_id int not null auto_increment
+	vm_member_list_id int not null AUTO_INCREMENT
 		primary key,
 	vm_group_id int null,
 	vm_member_name  varchar(256) null,
@@ -119,12 +119,57 @@ class db_util
             if (self::$connection->query("SHOW TABLES LIKE 'vm_services'")->num_rows == 0) {
 
                 // don't use ` instead of ' in query string. somethings it give error for unknown reason
-                self::$connection->query("create table  IF NOT EXISTS vm_services
+                self::$connection->query("CREATE TABLE IF NOT EXISTS vm_services
 (
 	vm_service_id int not null auto_increment primary key,
 	vm_service_name  varchar(256) null
   
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('vm_services Creation failed!' . self::$connection->error);
+            }
+
+            /**
+             * Digester Table
+             */
+            if (self::$connection->query("SHOW TABLES LIKE 'vm_disaster'")->num_rows == 0) {
+
+                // don't use ` instead of ' in query string. somethings it give error for unknown reason
+                self::$connection->query("CREATE TABLE IF NOT EXISTS vm_disaster
+(
+    vm_disaster_id int not null AUTO_INCREMENT
+        primary key,
+    vm_disaster_name varchar(256) not null,
+    vm_disaster_locations  varchar(256) not null,
+    vm_disaster_type int not null,
+    vm_disaster_start DATE not null,
+    vm_disaster_expire  DATE not null
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('vm_disaster Creation failed!' . self::$connection->error);
+            }
+
+            /**
+             * Division
+             */
+            if (self::$connection->query("SHOW TABLES LIKE 'vm_division'")->num_rows == 0) {
+
+                // don't use ` instead of ' in query string. somethings it give error for unknown reason
+                self::$connection->query("CREATE TABLE IF NOT EXISTS vm_division
+(
+    vm_division_id int not null AUTO_INCREMENT primary key,
+    vm_division_name varchar(256) not null
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('vm_division Creation failed!' . self::$connection->error);
+            }
+
+            /**
+             * District
+             */
+            if (self::$connection->query("SHOW TABLES LIKE 'vm_district'")->num_rows == 0) {
+
+                // don't use ` instead of ' in query string. somethings it give error for unknown reason
+                self::$connection->query("CREATE TABLE IF NOT EXISTS vm_district
+(
+    vm_district_id int not null AUTO_INCREMENT primary key,
+    vm_district_division_id int not null,
+    vm_district_name varchar(256) not null
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('vm_district Creation failed!' . self::$connection->error);
             }
 
 

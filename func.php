@@ -31,7 +31,6 @@ define("__COOKIES_EXPIRE_MAX__", 86400 * 365);
 
 function validateInput($data)
 {
-    echo  $data;
     $data = trim($data); //Strip unnecessary characters (extra space, tab, newline)
     $data = stripslashes($data); //Remove backslashes (\)
     $data = htmlspecialchars($data, ENT_NOQUOTES, 'UTF-8');
@@ -141,6 +140,30 @@ function isMemberOfThisGroup($groupId)
     return false;
 }
 
+function getTheUsersGroupId($user_id)
+{  
+	$db = new db_util();
+
+    $sql = "SELECT vm_group_id 
+    FROM vm_member_list 
+    WHERE vm_member_list_id='$user_id'";
+
+    $result = $db->query($sql);
+
+    if ($result !== false) {
+        // if there any error in sql then it will false
+        if ($result->num_rows > 0) {
+            // if the sql execute successful then it give 
+             
+            $row = $result->fetch_assoc(); 
+            
+            return $row['vm_group_id'];
+        }
+    }
+    
+    return 0;
+}
+
 /**
  * Check if the loggedin user is the creator of the group
  */
@@ -170,4 +193,81 @@ function isAdminOfThisGroup($groupId)
     }
     
     return false;
+}
+
+/**
+ *******************************************
+ *******************************************
+ *******************************************
+ * [ All about Time ]
+ */
+
+/**
+ * [getTheFormattedDateTime Return formatted date from mysql database Date data].
+ *
+ * @param [string] $dateTimeString [mySql database Date data]
+ * @return false|string [string] [Return the formatted date]
+ */
+function getTheFormattedDateTime($dateTimeString)
+{
+    $_date = strtotime($dateTimeString);
+
+    if (intval(date('Y', $_date)) == intval(date('Y', time()))) {
+        # If same year
+        $timeDifference = floor((time() - $_date) / 60); # Minutes
+
+        if ($timeDifference <= 43200) { # 30 * 24 * 60 = 30 days
+            # less then 30 day
+            if ($timeDifference <= 1440) { # 24 * 60 = 1 days
+                # if same day
+                if ($timeDifference <= 60) { # 60 min = 1 hour
+                    # same hour
+                    return $timeDifference . " min ago";
+                } else {
+                    return floor($timeDifference / 60) . " hour ago";
+                }
+            } else {
+                return floor($timeDifference / 1440) . " days ago";
+            }
+        } else {
+            return date('j M, g:ia', $_date);
+        }
+    } else {
+        return date('j M Y, g:ia', $_date);
+    }
+}
+
+/**
+ *******************************************
+ *******************************************
+ *******************************************
+ * [ All about Location ]
+ */
+
+function getDistrictNameById($district_id)
+{
+	$db = new db_util();
+
+	$sql = "SELECT vm_district_name
+	FROM vm_district
+	WHERE vm_district_id='$district_id'";
+
+	$result = $db->query($sql);
+
+	if ($result !== false) {
+	// if there any error in sql then it will false
+	// 
+		if ($result->num_rows > 0) {
+
+			$row = $result->fetch_assoc();
+
+			return $row['vm_district_name'];
+
+		}
+
+	}
+
+	return "Invalid Location";
+
+
 }

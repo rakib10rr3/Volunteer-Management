@@ -1,0 +1,89 @@
+INSERT INTO `vm_division`(`vm_division_name`)
+VALUES ("Barisal"),
+("Chittagong"),
+("Dhaka"),
+("Khulna"),
+("Mymensingh"),
+("Rajshahi"),
+("Rangpur"),
+("Sylhet");
+
+INSERT INTO `vm_district`(`vm_district_division_id`, `vm_district_name`)
+VALUES
+(1, "Barguna"),
+(1, "Barisal"),
+(1, "Bhola"),
+(1, "Jhalokati"),
+(1, "Patuakhali"),
+(1, "Pirojpur"),
+
+(2, "Bandarban"),
+(2, "Brahmanbaria"),
+(2, "Chandpur"),
+(2, "Chittagong"),
+(2, "Comilla"),
+(2, "Cox's Bazar"),
+(2, "Feni"),
+(2, "Khagrachhari"),
+(2, "Lakshmipur"),
+(2, "Noakhali"),
+(2, "Rangamati"),
+
+(3, "Dhaka"),
+(3, "Faridpur"),
+(3, "Gazipur"),
+(3, "Gopalganj"),
+(3, "Kishoreganj"),
+(3, "Madaripur"),
+(3, "Manikganj"),
+(3, "Munshiganj"),
+(3, "Narayanganj"),
+(3, "Narsingdi"),
+(3, "Rajbari"),
+(3, "Shariatpur"),
+(3, "Tangail"),
+
+(4, "Bagerhat"),
+(4, "Chuadanga"),
+(4, "Jessore"),
+(4, "Jhenaidah"),
+(4, "Khulna"),
+(4, "Kushtia"),
+(4, "Magura"),
+(4, "Meherpur"),
+(4, "Narail"),
+(4, "Satkhira"),
+
+
+(5, "Jamalpur"),
+(5, "Mymensingh"),
+(5, "Netrakona"),
+(5, "Sherpur"),
+
+(6, "Bogra"),
+(6, "Joypurhat"),
+(6, "Naogaon"),
+(6, "Natore"),
+(6, "Chapainawabganj"),
+(6, "Pabna"),
+(6, "Rajshahi"),
+(6, "Sirajgonj"),
+
+(7, "Dinajpur"),
+(7, "Gaibandha"),
+(7, "Kurigram"),
+(7, "Lalmonirhat"),
+(7, "Nilphamari"),
+(7, "Panchagarh"),
+(7, "Rangpur"),
+(7, "Thakurgaon"),
+
+(8, "Habiganj"),
+(8, "Moulvibazar"),
+(8, "Sunamganj"),
+(8, "Sylhet");
+
+
+
+
+
