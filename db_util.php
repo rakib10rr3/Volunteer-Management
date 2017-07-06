@@ -150,7 +150,7 @@ class db_util
             /***
              * Message_Table
              */
-            if (self::$connection->query("SHOW TABLES LIKE 'vm_division'")->num_rows == 0) {
+            if (self::$connection->query("SHOW TABLES LIKE 'vm_messages'")->num_rows == 0) {
 
                 // don't use ` instead of ' in query string. somethings it give error for unknown reason
                 self::$connection->query("CREATE TABLE IF NOT EXISTS vm_messages
@@ -162,7 +162,7 @@ class db_util
 	vm_message_to_group int null,
 	vm_message_from_member int null,
 	date datetime null
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('vm_messages_Creation failed!' . self::$connection->error);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('vm_messages Creation failed!' . self::$connection->error);
             }
 
 
