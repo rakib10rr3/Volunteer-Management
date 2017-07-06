@@ -1012,11 +1012,4 @@ class Messages
 
     }
 
-
-<<<<<<< Updated upstream
 }
-=======
-
-
-}
->>>>>>> Stashed changes
