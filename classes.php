@@ -379,7 +379,7 @@ class Member
     private $memberID;
     private $memberName;
     private $memberEmail;
-    //  private $memberGrp;
+    private $memberGrp;
     private $memberPhone;
     private $memberAge;
     private $memberGender;
@@ -426,17 +426,18 @@ class Member
         $db = new db_util();
 
 
-        $memjoin = $db->prepare('INSERT INTO vm_member_list(vm_member_name, vm_member_email, vm_member_phone, vm_member_type,vm_member_interest)
-                    VALUES(?, ?, ?, ?, ?)');
+        $memjoin = $db->prepare('INSERT INTO vm_member_list(vm_group_id, vm_member_name, vm_member_email, vm_member_phone, vm_member_type,vm_member_interest)
+            		VALUES(?, ?, ?, ?, ?, ?)');
 
         $_memberName = $this->memberName;
         $_memberEmail = $this->memberEmail;
+        $_memberGrp = $this->memberGrp;
         $_memberPhone = $this->memberPhone;
         $_memberType = $this->memberType;
         $_memberInterest = $this->memberInterest;
         echo $db->getError();
 
-        $memjoin->bind_param('sssss', $_memberName, $_memberEmail, $_memberPhone, $_memberType,$_memberInterest);
+        $memjoin->bind_param('isssss', $_memberGrp, $_memberName, $_memberEmail, $_memberPhone, $_memberType,$_memberInterest);
         //echo $_memberPhone;
         $result = $memjoin->execute();
 
@@ -570,7 +571,7 @@ class Member
     }
 
 
-    public function setMemberInterest($memInterest)
+    public function setMemberInterest($memint)
     {
         $this->memberInterest = implode(", ",$memint);
         return $this;

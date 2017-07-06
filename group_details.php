@@ -117,6 +117,7 @@ function show_member_list($v_group_id)
               $v_group_leader_id=$row['v_group_leader_id'];
               show_group_info($v_group_id,$v_group_name,$v_group_place,$v_group_description,$v_group_services,$v_group_member_number,$v_group_leader_id);
               show_member_list($v_group_id);
+              echo "<td> <a class='navbar-link' href='join_group.php?group_id=$v_group_id'>Join group </a> </td>";
           }
       }
       else
