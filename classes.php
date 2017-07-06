@@ -495,9 +495,9 @@ class Member
         $db = new db_util();
 
 
-        $memjoin = $db->prepare('INSERT INTO vm_member_list(vm_group_id, vm_member_name, vm_member_email, vm_member_phone, vm_member_type,vm_member_interest)
-            		VALUES(?, ?, ?, ?, ?, ?)');
-
+        $memjoin = $db->prepare('INSERT INTO vm_member_list(vm_group_id, vm_member_id, vm_member_name, vm_member_email, vm_member_phone, vm_member_type,vm_member_interest)
+            		VALUES(?, ?, ?, ?, ?, ?, ?)');
+        $_memberId = $this->memberID;
         $_memberName = $this->memberName;
         $_memberEmail = $this->memberEmail;
         $_memberGrp = $this->memberGrp;
@@ -506,7 +506,7 @@ class Member
         $_memberInterest = $this->memberInterest;
         echo $db->getError();
 
-        $memjoin->bind_param('isssss', $_memberGrp, $_memberName, $_memberEmail, $_memberPhone, $_memberType,$_memberInterest);
+        $memjoin->bind_param('iisssss', $_memberGrp, $_memberId, $_memberName, $_memberEmail, $_memberPhone, $_memberType,$_memberInterest);
         //echo $_memberPhone;
         $result = $memjoin->execute();
 

@@ -299,3 +299,32 @@ function isInAnyGrp($u_id)
     }
     return false;
 }
+function isPermenentInGrp($u_id)
+{
+
+    $_c_user_id = (isset($_COOKIE[$GLOBALS['c_id']]) ? $_COOKIE[$GLOBALS['c_id']] : 0);
+
+    if ($_c_user_id != 0 && isUserLoggedIn()) {
+
+        $db = new db_util();
+
+        $sql = "SELECT * 
+	    FROM vm_member_list 
+	    WHERE vm_member_id=$u_id 
+	    AND vm_member_type = 'permanent'";
+
+        $result = $db->query($sql);
+        if ($result !== false) {
+            // if there any error in sql then it will false
+            //
+            if ($result->num_rows > 0) {
+
+                $row = $result->fetch_assoc();
+
+                return $row['vm_group_id'];
+
+            }
+
+        }
+    }
+}
