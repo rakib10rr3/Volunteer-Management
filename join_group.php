@@ -50,7 +50,7 @@ include "basic_structure/navbar.php";
     <input type="text" name="member_email">
     <p>Phone: </p>
     <input type="text" name="member_phone">
-    <input type="hidden" name="mem_group_id" value="<?php echo $GLOBALS['grpId']?>">
+    <input type="hidden" name="mem_group_id" value="<?php echo $grpId?>">
     <br>
     <p>Type: </p>
     <input type="radio" name="mem_type" value="permanent"> Permanent
