@@ -111,7 +111,7 @@ if((isset($_GET['del_member_id'])) && (isset($_GET['group_id'])))
     if($result)
     {
         echo" successfully deleted the id ";
-        header("Location: show_member.php?show_member_of=$group_id");
+        header("Location: my_group.php?group_id=$group_id");
     }
     else
     {

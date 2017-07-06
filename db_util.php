@@ -136,15 +136,35 @@ class db_util
                 // don't use ` instead of ' in query string. somethings it give error for unknown reason
                 self::$connection->query("CREATE TABLE IF NOT EXISTS vm_disaster
 (
-    vm_disaster_id int not null AUTO_INCREMENT
-        primary key,
-    vm_disaster_name varchar(256) not null,
-    vm_disaster_locations  varchar(256) not null,
-    vm_disaster_type int not null,
-    vm_disaster_start DATE not null,
-    vm_disaster_expire  DATE not null
+   vm_disaster_id int not null auto_increment
+		primary key,
+	vm_disaster_name varchar(256) not null,
+	vm_disaster_locations varchar(256) not null,
+	vm_disaster_type int not null,
+	vm_disaster_start date not null,
+	vm_disaster_expire date not null,
+	vm_disaster_created_by int null,
+	vm_disaster_added_by_group int null
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('vm_disaster Creation failed!' . self::$connection->error);
             }
+            /***
+             * Message_Table
+             */
+            if (self::$connection->query("SHOW TABLES LIKE 'vm_division'")->num_rows == 0) {
+
+                // don't use ` instead of ' in query string. somethings it give error for unknown reason
+                self::$connection->query("CREATE TABLE IF NOT EXISTS vm_messages
+(
+	vm_messages_id int not null auto_increment
+		primary key,
+	vm_message_text text null,
+	vm_message_disaster_id int null,
+	vm_message_to_group int null,
+	vm_message_from_member int null,
+	date datetime null
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('vm_messages_Creation failed!' . self::$connection->error);
+            }
+
 
             /**
              * Division

@@ -75,8 +75,8 @@ class User
             $new_user_id = $stmt->insert_id;
             return $new_user_id;
         }
-
-
+        
+        
 
         return false; // anything wrong then return 0
 
@@ -197,6 +197,22 @@ class User
 
         return $this;
     }
+    public function get_name_by_id($id)
+    {
+        $sql_string="SELECT * FROM vm_users WHERE user_id= $id";
+        $db=new db_util();
+        $result=$db->query($sql_string);
+        if($result)
+        {
+            $row=mysqli_fetch_assoc($result);
+            $name=$row['user_name'];
+            return $name;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 }
 
@@ -254,7 +270,7 @@ class Group
                 $_grpPlace = $this->grpPlace;
                 $_grpDescription = $this->grpDescription;
                 $_grpServices = $this->grpServices;
-                // $_grpLeader = $this->grpLeader;
+               // $_grpLeader = $this->grpLeader;
 
                 echo $db->getError();
 
@@ -378,7 +394,7 @@ class Group
 
 class Member
 {
-    private $memberID; // shafee use korsi
+    private $memberID;
     private $memberName;
     private $memberEmail;
     private $memberGrp;
@@ -421,7 +437,7 @@ class Member
         $_memberType = $this->memberType;
         $_memberAge = $this->memberAge;
         $_memberGender = $this->memberGender;
-        // $_memberInterest = $this->memberInterest;
+       // $_memberInterest = $this->memberInterest;
         echo $db->getError();
 
         $memUpdate->bind_param('sssis', $_memberName, $_memberPhone, $_memberType, $_memberAge,$_memberGender);
@@ -429,9 +445,9 @@ class Member
         $result = $memUpdate->execute();
 
         if ($result === true) {
-            // $new_user_id = $memUpdate->insert_id;
+           // $new_user_id = $memUpdate->insert_id;
             header("Location:profile.php?id=".$this->memberID);
-            // return $new_user_id;
+           // return $new_user_id;
         }
 
         return false; // anything wrong then return 0
@@ -446,9 +462,9 @@ class Member
         $db = new db_util();
 
 
-        $memjoin = $db->prepare('INSERT INTO vm_member_list(vm_group_id, vm_member_id, vm_member_name, vm_member_email, vm_member_phone, vm_member_type,vm_member_interest)
-            		VALUES(?, ?, ?, ?, ?, ?, ?)');
-        $_memberId = $this->memberID;
+        $memjoin = $db->prepare('INSERT INTO vm_member_list(vm_group_id, vm_member_name, vm_member_email, vm_member_phone, vm_member_type,vm_member_interest)
+            		VALUES(?, ?, ?, ?, ?, ?)');
+
         $_memberName = $this->memberName;
         $_memberEmail = $this->memberEmail;
         $_memberGrp = $this->memberGrp;
@@ -457,7 +473,7 @@ class Member
         $_memberInterest = $this->memberInterest;
         echo $db->getError();
 
-        $memjoin->bind_param('iisssss', $_memberGrp, $_memberId, $_memberName, $_memberEmail, $_memberPhone, $_memberType,$_memberInterest);
+        $memjoin->bind_param('isssss', $_memberGrp, $_memberName, $_memberEmail, $_memberPhone, $_memberType,$_memberInterest);
         //echo $_memberPhone;
         $result = $memjoin->execute();
 
@@ -546,7 +562,6 @@ class Member
         return $this;
     }
 
-
     public function getMemberPhone()
     {
         return $this->memberPhone;
@@ -603,24 +618,24 @@ class Member
 
 class Disaster {
 
-    /*
-        vm_disaster_id int not null auto_increment
-            primary key,
-        vm_disaster_name varchar(256) not null,
-        vm_disaster_locations  varchar(256) not null,
-        vm_disaster_type int not null,
-        vm_disaster_start DATETIME not null,
-        vm_disaster_expire  DATETIME not null
-        */
-
+/*
+    vm_disaster_id int not null auto_increment
+        primary key,
+    vm_disaster_name varchar(256) not null,
+    vm_disaster_locations  varchar(256) not null,
+    vm_disaster_type int not null,
+    vm_disaster_start DATETIME not null,
+    vm_disaster_expire  DATETIME not null
+    */
+   
     const disaster_type = array(
-        1 => "Flood",
-        2 => "Cyclone",
-        3 => "Hill",
+        1 => "Flood", 
+        2 => "Cyclone", 
+        3 => "Hill", 
         4 => "Donation"
-    );
+        );
 
-
+   
     private $id;
     private $name;
     private $location;
@@ -799,4 +814,84 @@ class Disaster {
 
         return $this;
     }
+}
+
+
+class Messages
+{
+    function __construct()
+    {
+
+    }
+    private $message_text;
+    private $message_disaster_id;
+    private $message_to_group;
+    private $message_from_member_id;
+
+    public function set_message_text($id)
+    {
+        $this->message_text = $id;
+        echo "message_set to ".$this->message_text;
+        return $this;
+    }
+    public function set_message_disaster_id($id)
+    {
+        $this->message_disaster_id = $id;
+
+        //echo "message_set to ".$this->message_text;
+        return $this;
+    }
+    public function set_message_to_group($id)
+    {
+        $this->message_to_group = $id;
+        return $this;
+    }
+    public function set_message_from_member_id($id)
+    {
+        $this->message_from_member_id=$id;
+        return $this;
+    }
+
+    public function add()
+    {
+
+        // Check all value exist!
+        if (empty($this->message_text) ||empty($this->message_disaster_id )||empty($this->message_to_group ) ||empty($this->message_from_member_id)) {
+            echo "sad -_-";
+            return false; // all value not found!
+        }
+
+        // make new db object
+        $db = new db_util();
+
+
+        $stmt = $db->prepare("INSERT INTO vm_messages(vm_message_text,vm_message_disaster_id, vm_message_to_group, vm_message_from_member,date) VALUES(?, ?, ?, ?,now())");
+        $_message = $this->message_text;
+        $_disaster_post_id = $this->message_disaster_id;
+        $_group_id = $this->message_to_group;
+        $_member_id = $this->message_from_member_id;
+
+        echo $_message ." ",$_disaster_post_id ." ".$_group_id." ".$_member_id."\n";
+
+        //echo $db->getError();
+
+        $stmt->bind_param('siii', $_message, $_disaster_post_id, $_group_id, $_member_id);
+
+        $result = $stmt->execute();
+
+
+        if ($result === true) {
+                /*    $new_user_id = $stmt->insert_id;
+                    return $new_user_id;
+                */
+
+        return true;
+        }
+
+
+        return false; // anything wrong then return 0
+
+    }
+
+
 }
