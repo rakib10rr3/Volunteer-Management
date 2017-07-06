@@ -255,7 +255,8 @@ class Group
     {
 
         // Check all value exist!
-        if ($this->grpName == "" || $this->grpPlace == "" || $this->grpDescription == "" || $this->grpServices == "" ) {
+        if ($this->grpName == "" || $this->grpPlace == "" || $this->grpDescription == "" || $this->grpServices == "" ||
+            $this->grpLeader == "") {
             return 0; // all value not found!
         }
 
@@ -279,18 +280,19 @@ class Group
                 return false; // already have user with the $email
             } else {
 
-                $stmt = $db->prepare('INSERT INTO vm_group(v_group_name, v_group_place, v_group_description, v_group_services)
-                    VALUES(?, ?, ?, ?)');
+                $stmt = $db->prepare('INSERT INTO vm_group(v_group_name, v_group_place, v_group_description, v_group_services,
+                    v_group_leader_id)
+                    VALUES(?, ?, ?, ?, ?)');
 
                 $_grpName = $this->grpName;
                 $_grpPlace = $this->grpPlace;
                 $_grpDescription = $this->grpDescription;
                 $_grpServices = $this->grpServices;
-               // $_grpLeader = $this->grpLeader;
+                $_grpLeader = $this->grpLeader;
 
                 echo $db->getError();
 
-                $stmt->bind_param('ssss', $_grpName, $_grpPlace, $_grpDescription, $_grpServices);
+                $stmt->bind_param('ssssi', $_grpName, $_grpPlace, $_grpDescription, $_grpServices, $_grpLeader);
 
                 $result = $stmt->execute();
 
@@ -305,13 +307,33 @@ class Group
 
     }
 
-
     /**
      * Update User Information
      */
     public function update()
     {
 
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getGrpLeader()
+    {
+        return $this->grpLeader;
+    }
+
+    /**
+     * @param mixed $grpLeader
+     *
+     * @return self
+     */
+    public function setGrpLeader($grpLeader)
+    {
+        $this->grpLeader = $grpLeader;
+
+        return $this;
     }
 
     /**
@@ -401,7 +423,7 @@ class Group
 
     public function setGrpServices($services)
     {
-        $this->grpServices = implode(", ",$services);
+        $this->grpServices = implode(", ", $services);
         return $this;
     }
     public function get_group_name_by_leader_id($id)
@@ -459,6 +481,7 @@ class Member
             return false;
         }
     }
+
     public function update()
     {
         $db = new db_util();
@@ -487,17 +510,30 @@ class Member
         return false; // anything wrong then return 0
     }
 
-    /*
-        private $memberID;
-    private $memberName;
-    private $memberEmail;
-    private $memberGrp;
-    private $memberPhone;
-    private $memberAge;
-    private $memberGender;
-    private $memberType;
-    private $memberInterest;
-     */
+    public function updateGroupIdForAdmin()
+    {
+
+        // make new db object
+        $db = new db_util();
+        
+        $memUpdate = $db->prepare('UPDATE vm_member_list 
+            SET vm_group_id = ?,  vm_member_type = ?
+            WHERE vm_member_id = ?');
+
+        $_memberID = $this->memberID;
+        $_memberGrp = $this->memberGrp;
+        $_memberType = $this->memberType;
+
+        $memUpdate->bind_param('isi', $_memberGrp, $_memberType, $_memberID);
+        //echo $_memberPhone;
+        $result = $memUpdate->execute();
+
+        if ($result !== false) {
+            return true;
+        }
+
+        return false; // anything wrong then return 0
+    }
 
     /**
      * @return mixed
@@ -977,4 +1013,10 @@ class Messages
     }
 
 
+<<<<<<< Updated upstream
 }
+=======
+
+
+}
+>>>>>>> Stashed changes
