@@ -87,8 +87,29 @@ ORDER BY vm_disaster_start DESC ";
                         ?>
 
                         <li>
-
                             <p class="ts-disaster-title"><?= $row['vm_disaster_name'] ?></p>
+
+                            <div class="w3-panel w3-border-left w3-border-blue w3-hover-pale-blue">
+                                <p class="">Added By:  <?php
+                                    $user_obj=new User();
+                                    $name=$user_obj->get_name_by_id($row['vm_disaster_created_by']);
+                                    echo ' <a href="profile.php?id='.$row['vm_disaster_created_by'].'">'.$name.'</a>';
+                                    ?></p>
+                            </div>
+
+                            <div class="w3-panel w3-border-left w3-border-blue w3-hover-pale-blue">
+                                <p class="">Volunteer_Group:  <?php
+                                    $grp_obj=new Group();
+                                    $array_name=$grp_obj->get_group_name_by_leader_id($row['vm_disaster_created_by']);
+                                    $group_name=$array_name[0];
+                                    $group_id=$array_name[1];
+                                    if($name !=false)
+                                    {
+                                        echo  '<a href="group_details.php?group_id='.$group_id.'">'.$group_name.'</a>';
+                                    }
+
+                                    ?></p>
+                            </div>
 
                             <div class="w3-row">
                                 <div class="w3-half">

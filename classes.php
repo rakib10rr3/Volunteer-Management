@@ -213,6 +213,22 @@ class User
             return false;
         }
     }
+    public function get_email_by_id($id)
+    {
+        $sql_string="SELECT * FROM vm_users WHERE user_email= $id";
+        $db=new db_util();
+        $result=$db->query($sql_string);
+        if($result)
+        {
+            $row=mysqli_fetch_assoc($result);
+            $name=$row['user_email'];
+            return $name;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 }
 
@@ -388,6 +404,23 @@ class Group
         $this->grpServices = implode(", ",$services);
         return $this;
     }
+    public function get_group_name_by_leader_id($id)
+    {
+        $sql_string="SELECT * FROM vm_group WHERE v_group_leader_id= $id";
+        $db=new db_util();
+        $result=$db->query($sql_string);
+        if($result)
+        {
+            $row=mysqli_fetch_assoc($result);
+            $name=$row['v_group_name'];
+            $group_id=$row['v_group_id'];
+            return array($name,$group_id);
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 }
 
@@ -496,6 +529,12 @@ class Member
      * @return self
      */
     public function setMemberID($id)
+    {
+        $this->memberID = $id;
+
+        return $this;
+    }
+    public function setGroup_id($id)
     {
         $this->memberID = $id;
 

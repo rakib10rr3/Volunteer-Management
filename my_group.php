@@ -126,8 +126,6 @@ function get_this_group($grp_id)
             echo '<h3>Couldnt delete this member sorry</h3>';
         }
     }
-
-
     //this function runs the first in this div
         ?>
 
@@ -137,7 +135,6 @@ function get_this_group($grp_id)
 <!-- group info show er div -->
 <div id="div_show_group_info" class="targetDiv">
 
-     div 2 er code
     <?php
 
     function show_group_info($v_group_id,$v_group_name,$v_group_place,$v_group_description,$v_group_services,$v_group_member_number,$v_group_leader_id)
