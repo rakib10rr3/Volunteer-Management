@@ -35,13 +35,11 @@ else
 
     <a href="show_member.php?show_member_of=1" class="w3-bar-item w3-button" id="show_member">View All Member</a>
     <a href="show_group_info.php?group_id=1" class="w3-bar-item w3-button" id="show_group_info">View Group Info </a>
-
     <a href="#" class="w3-bar-item w3-button" id="view_join_request">View Any join Request</a>
     <a href="#" class="w3-bar-item w3-button">Call For Help</a>
+    <a  class="show w3-bar-item w3-button" target="_Show_inbox">View Inbox</a>
 
-    <a href="#" class="w3-bar-item w3-button">Add Donation Poll</a>
-    <a href="#" class="w3-bar-item w3-button">Distance Travel Poll</a>
-    <a href="#" class="w3-bar-item w3-button">Available Poll</a>
+
 </div>
 
 <div class="w3-blue-gray">

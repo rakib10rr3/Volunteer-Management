@@ -93,6 +93,7 @@ ORDER BY vm_disaster_start DESC ";
                                 <p class="">Added By:  <?php
                                     $user_obj=new User();
                                     $name=$user_obj->get_name_by_id($row['vm_disaster_created_by']);
+                                    echo $name;
                                     echo ' <a href="profile.php?id='.$row['vm_disaster_created_by'].'">'.$name.'</a>';
                                     ?></p>
                             </div>

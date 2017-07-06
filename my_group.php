@@ -48,6 +48,7 @@ function get_this_group($grp_id)
 
     <a  class="show w3-bar-item w3-button" target="_show_member">View All Member</a>
     <a  class="show w3-bar-item w3-button" target="_show_group_info">View Group Info</a>
+    <a href="#" class="w3-bar-item w3-button">Call For Help</a>
     <a  class="show w3-bar-item w3-button" target="_Show_inbox">View Inbox</a>
     <!--
     <a  class="hide" target="1">Close 1</a>-->
@@ -61,8 +62,95 @@ function get_this_group($grp_id)
 
 
 
-<div class="default w3-container" id="show_content">
+<div class="panel-danger" id="div_show_feed">
+
+    ekhane se group leader kina check korte hobe
+
             Default Information
+
+<?php
+$disaster_obj=new Disaster();
+$result=$disaster_obj->disaster_added_for_this_group($my_grp);
+if($result != false)
+{
+    while ($row = $result->fetch_assoc()) {
+
+        ?>
+
+        <li>
+            <p class="ts-disaster-title"><?= $row['vm_disaster_name'] ?></p>
+
+            <div class="w3-panel w3-border-left w3-border-blue w3-hover-pale-blue">
+                <p class="">Added By:  <?php
+                    $user_obj=new User();
+                    $name=$user_obj->get_name_by_id($row['vm_disaster_created_by']);
+                    echo $name;
+                    echo ' <a href="profile.php?id='.$row['vm_disaster_created_by'].'">'.$name.'</a>';
+                    ?></p>
+            </div>
+
+            <div class="w3-panel w3-border-left w3-border-blue w3-hover-pale-blue">
+                <p class="">Volunteer_Group:  <?php
+                    $grp_obj=new Group();
+                    $array_name=$grp_obj->get_group_name_by_leader_id($row['vm_disaster_created_by']);
+                    $group_name=$array_name[0];
+                    $group_id=$array_name[1];
+                    if($name !=false)
+                    {
+                        echo  '<a href="group_details.php?group_id='.$group_id.'">'.$group_name.'</a>';
+                    }
+
+                    ?></p>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-half">
+                    <p class="ts-disaster-type"><i
+                                class="fa fa-life-bouy"></i> <?= Disaster::getDisasterNameById($row['vm_disaster_type']) ?>
+                    </p>
+                </div>
+                <div class="w3-half">
+                    <p class="ts-disaster-loc"><i
+                                class="fa fa-map-marker"></i> <?= getDistrictNameById($row['vm_disaster_locations']) ?>
+                    </p>
+                </div>
+            </div>
+
+
+            <p class="ts-disaster-start"><i
+                        class="fa fa-calendar"></i> <?= date_format(date_create($row['vm_disaster_start']), "j M") ?>
+                to <?= date_format(date_create($row['vm_disaster_expire']), "j M") ?></p>
+
+            <!--here some filtering should be done
+            -->
+            <form action="index.php" method="post" id="usrform">
+                <input class="w3-input w3-animate-input" placeholder="Respond by message " type="text"  name="message" style="width:30%">
+                <input class="w3-btn w3-blue-grey" type="submit" value="Send" name="send">
+                <input type="hidden" value="<?php echo $row['vm_disaster_id'] ?>" name="disaster_number" >
+                <input type="hidden" value="<?php echo $row['vm_disaster_created_by'] ?>" name="vm_disaster_created_by" >
+                <input type="hidden" value="<?php echo $row['vm_disaster_added_by_group'] ?>" name="vm_disaster_added_by_group" >
+            </form>
+
+        </li>
+
+        <?php
+
+    }
+}
+else
+{
+    echo "Something went horribly wrong !";
+}
+
+
+?>
+
+
+
+
+
+
+
 </div>
 
 

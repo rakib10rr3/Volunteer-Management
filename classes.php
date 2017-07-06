@@ -876,6 +876,27 @@ class Disaster {
 
         return $this;
     }
+
+    public function disaster_added_for_this_group($group_id)
+    {
+        $sql_string="SELECT * from vm_disaster WHERE vm_disaster_added_by_group=$group_id";
+
+        $db=new db_util();
+        $result=$db->query($sql_string);
+        if($result!=false)
+        {
+            if($result->num_rows>0)
+            {
+                return $result;
+            }
+        }
+        else
+        {
+           return false;
+        }
+
+
+    }
 }
 
 
