@@ -23,7 +23,7 @@
 
 
     <!-- Bootstrap Core CSS -->
-     <link href="./assests/css/bootstrap.min.css" rel="stylesheet"> -->
+     <!-- <link href="./assests/css/bootstrap.min.css" rel="stylesheet"> -->
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./assests/css/w3.css">

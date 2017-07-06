@@ -44,6 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 					if (password_verify($pword, $row["user_password"])) {
 
+						$user = new User();
+						$_member_name = $user->get_name_by_id($row['user_id']);
+
 						/**
 						 * Set Cookies
 						 */
@@ -52,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 						$host = $GLOBALS['c_domain'];
 
-						setcookie($GLOBALS['c_name'], $row['user_name'], time() + __COOKIES_EXPIRE_MAX__, $GLOBALS["c_subname"], $host, false, true);
+						setcookie($GLOBALS['c_name'], $_member_name, time() + __COOKIES_EXPIRE_MAX__, $GLOBALS["c_subname"], $host, false, true);
 
 						setcookie($GLOBALS['c_email'], $email, time() + __COOKIES_EXPIRE_MAX__, $GLOBALS["c_subname"], $host, false, true);
 

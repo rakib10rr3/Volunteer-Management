@@ -84,6 +84,12 @@ VALUES
 (8, "Sylhet");
 
 
-
+INSERT INTO `vm_services` (`vm_service_id`, `vm_service_name`) VALUES
+(1, 'blood donation'),
+(2, 'distance travale'),
+(3, 'Money donation'),
+(4, 'Old clothes'),
+(5, 'financial help'),
+(6, 'technical help');
 
 

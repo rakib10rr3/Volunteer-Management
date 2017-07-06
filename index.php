@@ -42,7 +42,7 @@ if(isset($_POST['send']))
 }
 ?>
 
-    <p class="w3-xlarge w3-center">Welcome! <?php echo $_COOKIE[$GLOBALS['c_name']]; ?></p>
+    <p class="w3-xlarge w3-center">Welcome! <?php echo (isset($_COOKIE[$GLOBALS['c_name']]))?$_COOKIE[$GLOBALS['c_name']]:""; ?></p>
     <p class="w3-large w3-center">Let's work togather to build a awesome Bangladesh!</p>
 
 

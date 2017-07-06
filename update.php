@@ -3,7 +3,7 @@
  * Group Create Page
  */
 $id = $_GET["id"];
-echo $id;
+// echo $id;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $member->setMemberAge($memberAge);
 
 
-        echo $member->getMemberAge();
+        // echo $member->getMemberAge();
 
         $result = $member->update();
 
@@ -61,7 +61,7 @@ include "basic_structure/navbar.php"
 
         $db = new db_util();
 
-        $sql = "SELECT * FROM vm_member_list WHERE vm_member_list_id = ".$id;
+        $sql = "SELECT * FROM vm_member_list WHERE vm_member_id = ".$id;
 
         $result = $db->query($sql);
 
@@ -75,8 +75,8 @@ include "basic_structure/navbar.php"
                 </p>
 
                 <p>
-                    <label for="member_email">Email</label>
-                    <input class="w3-input w3-border w3-light-grey" id="member_email" type="email" name="member_email" value="<?php echo $row['vm_member_email'];?>">
+                    <label for="member_email">Email (Not Changable)</label>
+                    <input class="w3-input w3-border w3-light-grey" id="member_email" type="email" name="member_email" value="<?php echo $row['vm_member_email'];?>" readonly>
                 </p>
 
                 <p>
@@ -87,8 +87,10 @@ include "basic_structure/navbar.php"
                 <p>
                     <label for="member_type">Type</label>
                     <br>
-                    <input class="w3-radio" id="member_type" type="radio" name="member_type" value="permanent" <?php if ("permanent" == $row['vm_member_type']) echo "checked"; ?>> Permanent
-                    <input class="w3-radio" id="member_type" type="radio" name="member_type" value="temporary" <?php if ("temporary" == $row['vm_member_type']) echo "checked"; ?>> Temporary
+                    <input class="w3-radio" id="member_type" type="radio" name="member_type" value="permanent"
+                    <?php if ("permanent" == $row['vm_member_type']) echo "checked"; ?>> Permanent
+                    <input class="w3-radio" id="member_type" type="radio" name="member_type" 
+                    value="temporary" <?php if ("temporary" == $row['vm_member_type']) echo "checked"; ?>> Temporary
                 </p>
 
                 <p>
@@ -107,8 +109,8 @@ include "basic_structure/navbar.php"
         <input type="hidden" name="id" value="<?php echo $id ;?>">
 
         <p>
-            <input class="w3-btn w3-blue-grey" type="submit" value="Submit">
-            <input class="w3-btn w3-blue" type="button" value="Group Activities" name="group" id="group">
+            <input class="w3-btn w3-blue-grey" type="submit" value="Save">
+            <!-- <input class="w3-btn w3-blue" type="button" value="Group Activities" name="group" id="group"> -->
         </p>
     </form>
 
@@ -120,7 +122,7 @@ include "basic_structure/footer.php";
 
 <script>
     $(document).ready(function () {
-        $("#group").click(function () {
-        });
+        // $("#group").click(function () {
+        // });
     });
 </script>

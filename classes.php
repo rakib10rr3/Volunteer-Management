@@ -199,13 +199,13 @@ class User
     }
     public function get_name_by_id($id)
     {
-        $sql_string="SELECT * FROM vm_users WHERE user_id= $id";
+        $sql_string="SELECT * FROM vm_member_list WHERE vm_member_id= $id";
         $db=new db_util();
         $result=$db->query($sql_string);
         if($result)
         {
             $row=mysqli_fetch_assoc($result);
-            $name=$row['user_name'];
+            $name=$row['vm_member_name'];
             return $name;
         }
         else
@@ -436,6 +436,7 @@ class Member
     private $memberGender;
     private $memberType;
     private $memberInterest;
+
     public function __construct()
     {
 
@@ -463,7 +464,7 @@ class Member
         $db = new db_util();
 
 
-        $memUpdate = $db->prepare('UPDATE vm_member_list SET vm_member_name = ?,  vm_member_phone = ?, vm_member_type = ? , vm_member_age = ?, vm_member_gender = ? WHERE vm_member_list_id = '.$this->memberID);
+        $memUpdate = $db->prepare('UPDATE vm_member_list SET vm_member_name = ?,  vm_member_phone = ?, vm_member_type = ? , vm_member_age = ?, vm_member_gender = ? WHERE vm_member_id = '.$this->memberID);
 
         $_memberName = $this->memberName;
         $_memberPhone = $this->memberPhone;
@@ -471,9 +472,9 @@ class Member
         $_memberAge = $this->memberAge;
         $_memberGender = $this->memberGender;
        // $_memberInterest = $this->memberInterest;
-        echo $db->getError();
+        // echo $db->getError();
 
-        $memUpdate->bind_param('sssis', $_memberName, $_memberPhone, $_memberType, $_memberAge,$_memberGender);
+        $memUpdate->bind_param('sssis', $_memberName, $_memberPhone, $_memberType, $_memberAge, $_memberGender);
         //echo $_memberPhone;
         $result = $memUpdate->execute();
 
@@ -486,6 +487,18 @@ class Member
         return false; // anything wrong then return 0
     }
 
+    /*
+        private $memberID;
+    private $memberName;
+    private $memberEmail;
+    private $memberGrp;
+    private $memberPhone;
+    private $memberAge;
+    private $memberGender;
+    private $memberType;
+    private $memberInterest;
+     */
+
     /**
      * @return mixed
      */
@@ -495,18 +508,22 @@ class Member
         $db = new db_util();
 
 
-        $memjoin = $db->prepare('INSERT INTO vm_member_list(vm_group_id, vm_member_id, vm_member_name, vm_member_email, vm_member_phone, vm_member_type,vm_member_interest)
-            		VALUES(?, ?, ?, ?, ?, ?, ?)');
+        $memjoin = $db->prepare('INSERT INTO vm_member_list(vm_group_id, vm_member_id, vm_member_name, vm_member_email, vm_member_phone, vm_member_type, vm_member_age, vm_member_gender, vm_member_interest)
+            		VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)');
+
         $_memberId = $this->memberID;
         $_memberName = $this->memberName;
         $_memberEmail = $this->memberEmail;
         $_memberGrp = $this->memberGrp;
         $_memberPhone = $this->memberPhone;
+        $_memberAge = $this->memberAge;
+        $_memberGender = $this->memberGender;
         $_memberType = $this->memberType;
         $_memberInterest = $this->memberInterest;
-        echo $db->getError();
+        // echo $db->getError();
 
-        $memjoin->bind_param('iisssss', $_memberGrp, $_memberId, $_memberName, $_memberEmail, $_memberPhone, $_memberType,$_memberInterest);
+        $memjoin->bind_param('iisssssss', $_memberGrp, $_memberId, $_memberName, $_memberEmail, $_memberPhone,
+            $_memberType, $_memberAge, $_memberGender, $_memberInterest);
         //echo $_memberPhone;
         $result = $memjoin->execute();
 
@@ -646,9 +663,15 @@ class Member
     }
 
 
-    public function setMemberInterest($memint)
+    // public function setMemberInterest($memint)
+    // {
+    //     $this->memberInterest = implode(", ",$memint);
+    //     return $this;
+    // }
+
+    public function setMemberInterest($memInt)
     {
-        $this->memberInterest = implode(", ",$memint);
+        $this->memberInterest = $memInt;
         return $this;
     }
 

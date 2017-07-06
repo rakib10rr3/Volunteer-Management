@@ -17,7 +17,7 @@ $c_protocol = 'http://';
 $c_domain = 'localhost';
 $c_host = $c_protocol.$c_domain;
 
-$c_subname = '/TEST_PROJECT/volunteer-management';
+$c_subname = '/vm/';
 
 /**
  * Site Consts.

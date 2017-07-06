@@ -40,14 +40,19 @@
         <a href="./group_search.php" class="w3-bar-item w3-button w3-hover-cyan">Group Search</a>
         <a href="./add_disaster.php" class="w3-bar-item w3-button w3-hover-cyan">Call for Help</a>
         <?php
-        $u_id=$_COOKIE[$GLOBALS['c_id']];
+
+        $u_id = $_COOKIE[$GLOBALS['c_id']];
         $result = isPermenentInGrp($u_id);
+
        // echo $result;
         if($result) {
 
             echo "<a href='./my_group.php?group_id=$result' class='w3-bar-item w3-button w3-hover-cyan'>My Group</a>";
         }
-            ?><a href="./profile.php" class="w3-bar-item w3-button w3-hover-cyan">Profile</a>
+            ?>
+
+            <a href="./profile.php?id=<?=$u_id?>" class="w3-bar-item w3-button w3-hover-cyan">Profile</a>
+            
         <?php
     }
     ?>
