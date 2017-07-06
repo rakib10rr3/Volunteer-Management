@@ -7,7 +7,10 @@
  */
 include "basic_structure/header.php";
 include "basic_structure/navbar.php";
-
+if(isset($_GET['group_id']))
+{
+    $my_grp = $_GET['group_id'];
+}
 
 function get_this_group($grp_id)
 {
@@ -108,7 +111,7 @@ function get_this_group($grp_id)
         }
         }
 
-    show_member_list(1);
+    show_member_list($my_grp);
     if((isset($_GET['del_member_id'])) && (isset($_GET['group_id'])))
     {
         $member_id=$_GET['del_member_id'];
@@ -160,7 +163,7 @@ function get_this_group($grp_id)
         </div>
     </div>';
     }
-    $result=get_this_group(1);
+    $result=get_this_group($my_grp);
     if($result)
     {
         while ($row=mysqli_fetch_assoc($result))
