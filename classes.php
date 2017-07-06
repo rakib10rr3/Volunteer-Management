@@ -14,7 +14,9 @@ class User
     public function __construct()
     {
 
+
     }
+
 
     public function isUserExistByEmail($user_email)
     {
@@ -388,6 +390,24 @@ class Member
     public function __construct()
     {
 
+    }
+
+    public  function remove_member_from_group($member_id,$group_id)
+    {
+        $db = new db_util();
+
+        $sql = "DELETE  
+        FROM vm_member_list
+        WHERE vm_group_id= $group_id AND vm_member_list_id = $member_id";
+        $result = $db->query($sql);
+        if($result !=false)
+        {
+            return $result;
+        }
+        else
+        {
+            return false;
+        }
     }
     public function update()
     {
