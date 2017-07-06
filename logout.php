@@ -5,7 +5,12 @@ Logout Module
 It logged you out and redirect to home page.
  */
 include_once 'func.php';
-
+if(isUserLoggedIn()==false)
+{?>
+    <p>You are not logged in pls login from <a href="login.php">here</a> </p>
+    <?php
+    exit();
+}
 $host = $GLOBALS['c_domain'];
 
 # Resetting all coockies by inserting invalid data
@@ -14,8 +19,7 @@ setcookie($GLOBALS['c_name'], "", -1, $GLOBALS["c_subname"], $host, false, true)
 setcookie($GLOBALS['c_email'], "", -1, $GLOBALS["c_subname"], $host, false, true);
 setcookie($GLOBALS['c_id'], "", -1, $GLOBALS["c_subname"], $host, false, true);
 setcookie($GLOBALS['c_hash'], "", -1, $GLOBALS["c_subname"], $host, false, true);
-// setcookie($GLOBALS['c_isloggedin'], "", -1, $GLOBALS["c_subname"], $host, false, true);
-
+//setcookie($GLOBALS['c_isloggedin'], "", -1, $GLOBALS["c_subname"], $host, false, true);
 
 //php function to check if headers sent or not
 if (!headers_sent()) {

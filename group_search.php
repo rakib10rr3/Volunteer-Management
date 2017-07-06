@@ -15,6 +15,12 @@ include "basic_structure/navbar.php";
  * Time: 7:04 PM
  * ----
  */
+if(isUserLoggedIn()==false)
+{?>
+    <p>You are not logged in pls login from <a href="login.php">here</a> </p>
+    <?php
+    exit();
+}
 //error variable
 $place_error = "";
 

@@ -2,11 +2,17 @@
 /**
  * Group Create Page
  */
-
+include "basic_structure/header.php";
+include "basic_structure/navbar.php";
+if(isUserLoggedIn()==false)
+{?>
+    <p>You are not logged in pls login from <a href="login.php">here</a> </p>
+    <?php
+    exit();
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-include 'func.php';
 
     $grpName = validateInput(isset($_POST['grp_name']) ? $_POST['grp_name'] : '');
     $grpPlace = validateInput(isset($_POST['grp_place']) ? $_POST['grp_place'] : '');
@@ -47,9 +53,6 @@ include 'func.php';
 ?>
 
 <?php
-
-include "basic_structure/header.php";
-include "basic_structure/navbar.php"
 
 ?>
 

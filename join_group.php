@@ -5,12 +5,22 @@
  * Date: 7/5/2017
  * Time: 2:05 AM
  */
+
+include "basic_structure/header.php";
+include "basic_structure/navbar.php";
+if(isUserLoggedIn()==false)
+{?>
+    <p>You are not logged in pls login from <a href="login.php">here</a> </p>
+    <?php
+    exit();
+}
 if(isset($_GET['group_id'])){
     $grpId = $_GET['group_id'];
+    //$u_id = $_GET['u_id'];
 }
 if (($_SERVER['REQUEST_METHOD'] == 'POST')){
 
-    include 'func.php';
+    $memberId = validateInput(isset($_POST['mem_id']) ? $_POST['mem_id'] : '');
     $memberName = validateInput(isset($_POST['member_name']) ? $_POST['member_name'] : '');
     $memberEmail = validateInput(isset($_POST['member_email']) ? $_POST['member_email'] : '');
     $memberGrp = validateInput(isset($_POST['mem_group_id']) ? $_POST['mem_group_id'] : '');
@@ -19,6 +29,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST')){
     $memberInterest = (isset($_POST['mem_int']) ? $_POST['mem_int'] : '');
 
     $mem = new Member();
+    $mem->setMemberID($memberId);
     $mem->setMemberName($memberName);
     $mem->setMemberEmail($memberEmail);
     $mem->setMemberGrp($memberGrp);
@@ -27,7 +38,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST')){
     $mem->setMemberInterest($memberInterest);
     $result = $mem->add();
     if ($result !== false) {
-        echo "Group Successfully created!";
+        echo "member added";
         //echo $memberPhone;
          echo $memberGrp;
         exit();
@@ -40,14 +51,27 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST')){
 
 <?php
 
-include "basic_structure/header.php";
-include "basic_structure/navbar.php";
 ?>
 <form method="post" action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>">
     <p>Name: </p>
     <input type="text" name="member_name">
     <p>Email: </p>
-    <input type="text" name="member_email">
+    <?php
+    $u_id = $_COOKIE[$GLOBALS['c_id']];
+    $db = new db_util();
+    $sql = "SELECT * FROM vm_users WHERE user_id=$u_id";
+    $result = $db->query($sql);
+    if($result->num_rows > 0)
+    {
+        while ($row = $result->fetch_assoc()) {
+            ?>
+
+            <input type="text" value="<?php echo $row['user_email'] ?>" name="member_email">
+            <input type="hidden" value="<?php echo $u_id?>" name="mem_id">
+            <?php
+        }
+    }
+    ?>
     <p>Phone: </p>
     <input type="text" name="member_phone">
     <input type="hidden" name="mem_group_id" value="<?php echo $grpId?>">

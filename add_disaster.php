@@ -7,11 +7,17 @@ Eita ekta disaster hisebe dhoree index e recent 'call for help '  namee show kor
 
 Ekhon j leader call for help disee...itar group e oi disaster ta auto fix hoi jabe. ..and onno kun leader Jodi index theke response Kore itar  Tai...taile itar group eo oita fix hoi jabe
  */
-
+include "basic_structure/header.php";
+include "basic_structure/navbar.php";
 /**
  * Flood , ghurnijor, pahar dhosh, eigulai mathai ase
  */
-
+if(isUserLoggedIn()==false)
+{?>
+    <p>You are not logged in pls login from <a href="login.php">here</a> </p>
+    <?php
+    exit();
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 

@@ -14,7 +14,6 @@ date_default_timezone_set('Asia/Dhaka');
 include 'globals.php';
 include 'db_util.php';
 include 'classes.php';
-
 /**
  * Some settings
  */
@@ -116,13 +115,13 @@ function isMemberOfThisGroup($groupId)
 {
 	$_c_user_id = (isset($_COOKIE[$GLOBALS['c_id']]) ? $_COOKIE[$GLOBALS['c_id']] : 0);
 
-	if ($_c_user_id != 0 && isUserLoggedIn($user_id)) {
+	if ($_c_user_id != 0 && isUserLoggedIn()) {
         
 		$db = new db_util();
 
 	    $sql = "SELECT * 
 	    FROM vm_member_list 
-	    WHERE vm_member_list_id='$_c_user_id' 
+	    WHERE vm_member_id='$_c_user_id' 
 	    AND vm_group_id = '$groupId'";
 
 	    $result = $db->query($sql);
@@ -270,4 +269,33 @@ function getDistrictNameById($district_id)
 	return "Invalid Location";
 
 
+}
+function getGrpById($u_id)
+{
+ $db= new db_util();
+ $sql = "SELECT * FROM vm_member_list WHERE vm_member_id=$u_id";
+ $result = $db->query($sql);
+ return $result;
+}
+function getGrpDetailsByGrpId($g_id)
+{
+    $db= new db_util();
+    $sql = "SELECT * FROM vm_group WHERE v_group_id=$g_id";
+    $result = $db->query($sql);
+    return $result;
+}
+function isInAnyGrp($u_id)
+{
+    $db = new db_util();
+    $sql = "SELECT * FROM vm_member_list WHERE vm_member_id=$u_id";
+    $result = $db->query($sql);
+    if ($result !== false) {
+        // if there any error in sql then it will false
+        if ($result->num_rows > 0) {
+            // if the sql execute successful then it give
+
+            return true;
+        }
+    }
+    return false;
 }

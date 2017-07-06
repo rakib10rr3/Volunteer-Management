@@ -75,8 +75,8 @@ class User
             $new_user_id = $stmt->insert_id;
             return $new_user_id;
         }
-        
-        
+
+
 
         return false; // anything wrong then return 0
 
@@ -254,7 +254,7 @@ class Group
                 $_grpPlace = $this->grpPlace;
                 $_grpDescription = $this->grpDescription;
                 $_grpServices = $this->grpServices;
-               // $_grpLeader = $this->grpLeader;
+                // $_grpLeader = $this->grpLeader;
 
                 echo $db->getError();
 
@@ -378,7 +378,7 @@ class Group
 
 class Member
 {
-    private $memberID;
+    private $memberID; // shafee use korsi
     private $memberName;
     private $memberEmail;
     private $memberGrp;
@@ -421,7 +421,7 @@ class Member
         $_memberType = $this->memberType;
         $_memberAge = $this->memberAge;
         $_memberGender = $this->memberGender;
-       // $_memberInterest = $this->memberInterest;
+        // $_memberInterest = $this->memberInterest;
         echo $db->getError();
 
         $memUpdate->bind_param('sssis', $_memberName, $_memberPhone, $_memberType, $_memberAge,$_memberGender);
@@ -429,9 +429,9 @@ class Member
         $result = $memUpdate->execute();
 
         if ($result === true) {
-           // $new_user_id = $memUpdate->insert_id;
+            // $new_user_id = $memUpdate->insert_id;
             header("Location:profile.php?id=".$this->memberID);
-           // return $new_user_id;
+            // return $new_user_id;
         }
 
         return false; // anything wrong then return 0
@@ -446,9 +446,9 @@ class Member
         $db = new db_util();
 
 
-        $memjoin = $db->prepare('INSERT INTO vm_member_list(vm_group_id, vm_member_name, vm_member_email, vm_member_phone, vm_member_type,vm_member_interest)
-            		VALUES(?, ?, ?, ?, ?, ?)');
-
+        $memjoin = $db->prepare('INSERT INTO vm_member_list(vm_group_id, vm_member_id, vm_member_name, vm_member_email, vm_member_phone, vm_member_type,vm_member_interest)
+            		VALUES(?, ?, ?, ?, ?, ?, ?)');
+        $_memberId = $this->memberID;
         $_memberName = $this->memberName;
         $_memberEmail = $this->memberEmail;
         $_memberGrp = $this->memberGrp;
@@ -457,7 +457,7 @@ class Member
         $_memberInterest = $this->memberInterest;
         echo $db->getError();
 
-        $memjoin->bind_param('isssss', $_memberGrp, $_memberName, $_memberEmail, $_memberPhone, $_memberType,$_memberInterest);
+        $memjoin->bind_param('iisssss', $_memberGrp, $_memberId, $_memberName, $_memberEmail, $_memberPhone, $_memberType,$_memberInterest);
         //echo $_memberPhone;
         $result = $memjoin->execute();
 
@@ -546,6 +546,7 @@ class Member
         return $this;
     }
 
+
     public function getMemberPhone()
     {
         return $this->memberPhone;
@@ -602,24 +603,24 @@ class Member
 
 class Disaster {
 
-/*
-    vm_disaster_id int not null auto_increment
-        primary key,
-    vm_disaster_name varchar(256) not null,
-    vm_disaster_locations  varchar(256) not null,
-    vm_disaster_type int not null,
-    vm_disaster_start DATETIME not null,
-    vm_disaster_expire  DATETIME not null
-    */
-   
-    const disaster_type = array(
-        1 => "Flood", 
-        2 => "Cyclone", 
-        3 => "Hill", 
-        4 => "Donation"
-        );
+    /*
+        vm_disaster_id int not null auto_increment
+            primary key,
+        vm_disaster_name varchar(256) not null,
+        vm_disaster_locations  varchar(256) not null,
+        vm_disaster_type int not null,
+        vm_disaster_start DATETIME not null,
+        vm_disaster_expire  DATETIME not null
+        */
 
-   
+    const disaster_type = array(
+        1 => "Flood",
+        2 => "Cyclone",
+        3 => "Hill",
+        4 => "Donation"
+    );
+
+
     private $id;
     private $name;
     private $location;

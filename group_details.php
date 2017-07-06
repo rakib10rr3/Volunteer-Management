@@ -12,7 +12,12 @@ include "basic_structure/navbar.php";
 
 <?php
 
-
+if(isUserLoggedIn()==false)
+{?>
+    <p>You are not logged in pls login from <a href="login.php">here</a> </p>
+    <?php
+    exit();
+}
 
 /***
  * Functions of this page
@@ -59,7 +64,7 @@ function show_group_info($v_group_id,$v_group_name,$v_group_place,$v_group_descr
 function show_member_list($v_group_id)
 {
 
-    echo $v_group_id;
+   // echo $v_group_id;
     $result=get_group_member_list($v_group_id);
 
     if($result)
@@ -117,7 +122,25 @@ function show_member_list($v_group_id)
               $v_group_leader_id=$row['v_group_leader_id'];
               show_group_info($v_group_id,$v_group_name,$v_group_place,$v_group_description,$v_group_services,$v_group_member_number,$v_group_leader_id);
               show_member_list($v_group_id);
-              echo "<td> <a class='navbar-link' href='join_group.php?group_id=$v_group_id'>Join group </a> </td>";
+              //echo $_COOKIE[$GLOBALS['c_id']];
+              //$u_id=$_COOKIE[$GLOBALS['c_id']];
+              //echo $_COOKIE[$GLOBALS['c_name']];
+              $u_id=$_COOKIE[$GLOBALS['c_id']];
+              if(isMemberOfThisGroup($v_group_id)==true)
+              {
+                  echo "<td>You are a member of this group</td>";
+              }
+              else
+              {
+                  if(isInAnyGrp($u_id)==true)
+                  {
+                        echo "<td>You are already in a group u can't join in this group</td>";
+                  }
+                    else
+                    {
+                        echo "<td> <a class='navbar-link' href='join_group.php?group_id=$v_group_id'>Join group </a> </td>";
+                  }
+              }
           }
       }
       else

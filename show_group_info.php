@@ -7,6 +7,12 @@
  */
 include "basic_structure/header.php";
 include "basic_structure/navbar.php";
+if(isUserLoggedIn()==false)
+{?>
+    <p>You are not logged in pls login from <a href="login.php">here</a> </p>
+    <?php
+    exit();
+}
 ?>
 
 <?php

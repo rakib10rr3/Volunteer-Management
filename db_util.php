@@ -104,6 +104,7 @@ class db_util
 	vm_member_list_id int not null AUTO_INCREMENT
 		primary key,
 	vm_group_id int null,
+	vm_member_id int null,
 	vm_member_name  varchar(256) null,
 	vm_member_email varchar(256) null,
 	vm_member_phone  varchar(256) null,

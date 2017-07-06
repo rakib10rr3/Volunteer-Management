@@ -2,7 +2,14 @@
 /**
  * Profile view Page
  */
-
+include "basic_structure/header.php";
+include "basic_structure/navbar.php";
+if(isUserLoggedIn()==false)
+{?>
+    <p>You are not logged in pls login from <a href="login.php">here</a> </p>
+    <?php
+    exit();
+}
 $id = $_GET['id'];
 
 //if (isset($_POST['update']))
@@ -12,8 +19,7 @@ $id = $_GET['id'];
 
 <?php
 
-include "basic_structure/header.php";
-include "basic_structure/navbar.php"
+
 
 ?>
 
