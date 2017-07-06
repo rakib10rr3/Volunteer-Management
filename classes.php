@@ -535,6 +535,30 @@ class Member
         return false; // anything wrong then return 0
     }
 
+    public function updateGroupId()
+    {
+
+        // make new db object
+        $db = new db_util();
+        
+        $memUpdate = $db->prepare('UPDATE vm_member_list 
+            SET vm_group_id = ?
+            WHERE vm_member_id = ?');
+
+        $_memberID = $this->memberID;
+        $_memberGrp = $this->memberGrp;
+
+        $memUpdate->bind_param('ii', $_memberGrp, $_memberID);
+        //echo $_memberPhone;
+        $result = $memUpdate->execute();
+
+        if ($result !== false) {
+            return true;
+        }
+
+        return false; // anything wrong then return 0
+    }
+
     /**
      * @return mixed
      */
@@ -1004,8 +1028,8 @@ class Messages
                     return $new_user_id;
                 */
 
-        return true;
-        }
+                    return true;
+                }
 
 
         return false; // anything wrong then return 0
