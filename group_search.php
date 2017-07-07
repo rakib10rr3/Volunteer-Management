@@ -51,7 +51,7 @@ function search_the_place($place)
 {
     $value = "";
     $db = new db_util();
-    $query_string = "SELECT * FROM vm_group where v_group_place LIKE '%$place%' ";
+    $query_string = "SELECT * FROM vm_group where v_group_place = '$place' ";
     $result = $db->query($query_string);
     if (mysqli_num_rows($result) > 0) {
         echo "<h2 class='alert-success '>Total " . mysqli_num_rows($result) . " Results found !</h2>";
@@ -115,8 +115,75 @@ function show_all_the_group($result)
             echo "<h3  class='text-center text-danger'>$place_error</h3>";
         }
         ?>
-        <label for="place"> Search With a Place </label>
-        <input type="text" name="place">
+<!--        <label for="place"> Search With a Place </label>-->
+<!--        <input type="text" name="place">-->
+        <p>
+            <label for="division">Group Place</label>
+            <select id="division" class="w3-select w3-border" name="division" required>
+                <option value="0" selected>Choose Division</option>
+                <option value="1">Barisal</option>
+                <option value="2">Chittagong</option>
+                <option value="3">Dhaka</option>
+                <option value="4">Khulna</option>
+                <option value="5">Mymensingh</option>
+                <option value="6">Rajshahi</option>
+                <option value="7">Rangpur</option>
+                <option value="8">Sylhet</option>
+            </select>
+        </p>
+        <p>
+            <select id="district" class="w3-select w3-border" name="place" disabled required>
+            </select>
+        </p>
+
+        <script type="text/javascript">
+            $(function(){
+
+                $("#division").change(function(){
+
+                    var div_id = $("#division").val();
+
+                    console.log(div_id);
+
+                    if(div_id == "0")
+                    {
+                        var sel = $("#district");
+                        sel.empty();
+                        sel.prop("disabled", true);
+                    } else {
+
+                        $options = {
+                            type: "district",
+                            division_id: div_id
+                        };
+
+
+                        $.post("data.php", $options, function (data) {
+
+                            console.log(data);
+
+                            $obj = jQuery.parseJSON(data);
+
+                            if($obj.success == true) {
+
+                                var sel = $("#district");
+                                sel.empty();
+                                for (var i=0; i<$obj.data.length; i++) {
+                                    sel.append('<option value="' + $obj.data[i].id + '">' + $obj.data[i].name + '</option>');
+                                }
+
+                                sel.prop("disabled", false);
+                            }
+
+                        });
+                    }
+
+                });
+
+            });
+        </script>
+
+
         <br>
 
         <input type="submit" value="Search" name="Search">

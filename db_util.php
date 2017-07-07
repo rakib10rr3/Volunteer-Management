@@ -192,6 +192,19 @@ class db_util
     vm_district_name varchar(256) not null
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('vm_district Creation failed!' . self::$connection->error);
             }
+            if (self::$connection->query("SHOW TABLES LIKE 'vm_response'")->num_rows == 0) {
+
+                // don't use ` instead of ' in query string. somethings it give error for unknown reason
+                self::$connection->query("CREATE TABLE IF NOT EXISTS vm_response
+(
+	vm_response_id int not null auto_increment
+		primary key,
+	vm_response_of_group int null,
+	vm_response_of_disaster int null,
+	vm_response_user_id int null
+
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci") or die('vm_district Creation failed!' . self::$connection->error);
+            }
 
 
             return self::$connection;

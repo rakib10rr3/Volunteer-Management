@@ -7,43 +7,48 @@ include "basic_structure/navbar.php";
 
 
 <?php
-if(isset($_POST['send']))
-{
-    $message_error=" ";
-    $message= validateInput(isset($_POST['message']) ? $_POST['message'] : '');
-    if(empty($message))
-    {
-        $message_error="Empty field !";
-    }
-    else 
-    {
-        $disaster_number=$_POST['disaster_number'];
-        $message_from_the_member= $_COOKIE[$GLOBALS['c_id']];
-        $message_to_group=$_POST['vm_disaster_added_by_group'];
-        echo "submitted by = ".$message_from_the_member;
-        echo "To the group number = ".$message_to_group;
-        echo "message = ".$message;
+if (isset($_POST['send'])) {
+    $message_error = " ";
+    $message = validateInput(isset($_POST['message']) ? $_POST['message'] : '');
+    if (empty($message)) {
+        $message_error = "Empty field !";
+    } else {
+        $disaster_number = $_POST['disaster_number'];
+        $message_from_the_member = $_COOKIE[$GLOBALS['c_id']];
+        $message_to_group = $_POST['vm_disaster_added_by_group'];
 
-        $msg_obj=new Messages();
+        $msg_obj = new Messages();
         $msg_obj->set_message_disaster_id($disaster_number);
         $msg_obj->set_message_from_member_id($message_from_the_member);
         $msg_obj->set_message_to_group($message_to_group);
         $msg_obj->set_message_text($message);
-        $check=$msg_obj->add();
-        if($check)
-        {
-            echo "Message Push was Successful";
-        }
-        else
-        {
-            echo "Couldnt Send the message sorry ";
+        $check = $msg_obj->add();
+
+        if ($check) {
+            ?>
+            <div class="w3-panel w3-green w3-display-container ts-alert">
+	            <span onclick="this.parentElement.style.display='none'"
+                      class="w3-button w3-large w3-display-topright">&times;</span>
+                <p>Message Push was Successful!</p>
+            </div>
+            <?php
+        } else {
+            ?>
+            <div class="w3-panel w3-green w3-display-container ts-alert">
+	            <span onclick="this.parentElement.style.display='none'"
+                      class="w3-button w3-large w3-display-topright">&times;</span>
+                <p>Message Push was Successful!</p>
+            </div>
+            <?php
         }
     }
 }
 ?>
 
-    <p class="w3-xlarge w3-center">Welcome! <?php echo (isset($_COOKIE[$GLOBALS['c_name']]))?$_COOKIE[$GLOBALS['c_name']]:""; ?></p>
-    <p class="w3-large w3-center">Let's work togather to build a awesome Bangladesh!</p>
+    <p class="w3-xlarge w3-center ts-text-bold">
+        Welcome<?php echo (isset($_COOKIE[$GLOBALS['c_name']])) ? " ".$_COOKIE[$GLOBALS['c_name']] : ""; ?>!
+    </p>
+    <p class="w3-large w3-center">Let's work together to build an awesome Bangladesh!</p>
 
 
     <div class="w3-row">
@@ -83,34 +88,31 @@ ORDER BY vm_disaster_start DESC ";
                     echo '<ul class="w3-ul w3-white">';
 
                     while ($row = $result->fetch_assoc()) {
-                        
+
                         ?>
 
                         <li>
                             <p class="ts-disaster-title"><?= $row['vm_disaster_name'] ?></p>
 
-                            <div class="w3-panel w3-border-left w3-border-blue w3-hover-pale-blue">
-                                <p class="">Added By:  <?php
-                                    $user_obj=new User();
-                                    $name=$user_obj->get_name_by_id($row['vm_disaster_created_by']);
-                                    echo $name;
-                                    echo ' <a href="profile.php?id='.$row['vm_disaster_created_by'].'">'.$name.'</a>';
-                                    ?></p>
-                            </div>
+                            <p class="ts-disaster-subtitle">
+                                Added By <?php
+                                $user_obj = new User();
+                                $name = $user_obj->get_name_by_id($row['vm_disaster_created_by']);
+                                //                                    echo $name;
+                                echo ' <a href="profile.php?id=' . $row['vm_disaster_created_by'] . '">' . $name . '</a>';
+                                ?>
+                                from <?php
+                                $grp_obj = new Group();
+                                $array_name = $grp_obj->get_group_name_by_leader_id($row['vm_disaster_created_by']);
+                                //                                    var_dump($array_name);
+                                $group_name = $array_name[0];
+                                $group_id = $array_name[1];
+                                if ($name != false) {
+                                    echo '<a href="group_details.php?group_id=' . $group_id . '">' . $group_name . '</a>';
+                                }
 
-                            <div class="w3-panel w3-border-left w3-border-blue w3-hover-pale-blue">
-                                <p class="">Volunteer_Group:  <?php
-                                    $grp_obj=new Group();
-                                    $array_name=$grp_obj->get_group_name_by_leader_id($row['vm_disaster_created_by']);
-                                    $group_name=$array_name[0];
-                                    $group_id=$array_name[1];
-                                    if($name !=false)
-                                    {
-                                        echo  '<a href="group_details.php?group_id='.$group_id.'">'.$group_name.'</a>';
-                                    }
-
-                                    ?></p>
-                            </div>
+                                ?>
+                            </p>
 
                             <div class="w3-row">
                                 <div class="w3-half">
@@ -133,11 +135,15 @@ ORDER BY vm_disaster_start DESC ";
                             <!--here some filtering should be done
                             -->
                             <form action="index.php" method="post" id="usrform">
-                                <input class="w3-input w3-animate-input" placeholder="Respond by message " type="text"  name="message" style="width:30%">
-                                <input class="w3-btn w3-blue-grey" type="submit" value="Send" name="send">
-                                <input type="hidden" value="<?php echo $row['vm_disaster_id'] ?>" name="disaster_number" >
-                                <input type="hidden" value="<?php echo $row['vm_disaster_created_by'] ?>" name="vm_disaster_created_by" >
-                                <input type="hidden" value="<?php echo $row['vm_disaster_added_by_group'] ?>" name="vm_disaster_added_by_group" >
+                                <p><input class="w3-input w3-border" placeholder="Respond by message " type="text"
+                                          name="message""></p>
+                                <p><input class="w3-btn w3-blue-grey" type="submit" value="Send" name="send"></p>
+                                <input type="hidden" value="<?php echo $row['vm_disaster_id'] ?>"
+                                       name="disaster_number">
+                                <input type="hidden" value="<?php echo $row['vm_disaster_created_by'] ?>"
+                                       name="vm_disaster_created_by">
+                                <input type="hidden" value="<?php echo $row['vm_disaster_added_by_group'] ?>"
+                                       name="vm_disaster_added_by_group">
                             </form>
 
                         </li>
