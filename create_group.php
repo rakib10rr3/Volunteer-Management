@@ -256,10 +256,10 @@ $u_id = $_COOKIE[$GLOBALS['c_id']];
                 checked.push($(this).val());
             });
 
-            // console.log($grp_name);
-            // console.log($grp_place);
-            // console.log($grp_desc);
-            // console.log(checked);
+             console.log($grp_name);
+             console.log($grp_place);
+             console.log($grp_desc);
+             console.log($grp_leader);
 
             // return false;
 

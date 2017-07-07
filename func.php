@@ -14,6 +14,13 @@ date_default_timezone_set('Asia/Dhaka');
 include 'globals.php';
 include 'db_util.php';
 include 'classes.php';
+
+
+$__user_id = (isset($_COOKIE[$GLOBALS['c_id']])) ? $_COOKIE[$GLOBALS['c_id']] : "0";
+$__user_name = (isset($_COOKIE[$GLOBALS['c_name']]))?$_COOKIE[$GLOBALS['c_name']]:"0";
+$__user_email = (isset($_COOKIE[$GLOBALS['c_email']]))?$_COOKIE[$GLOBALS['c_email']]:"0";
+
+
 /**
  * Some settings
  */
@@ -277,6 +284,26 @@ function getGrpById($u_id)
  $result = $db->query($sql);
  return $result;
 }
+
+function getGrpIdByUserId($u_id)
+{
+    $db= new db_util();
+    $sql = "SELECT * FROM vm_member_list WHERE vm_member_id=$u_id";
+    $result = $db->query($sql);
+    if($result!==false)
+    {
+        if ($result->num_rows > 0) {
+
+            $row = $result->fetch_assoc();
+
+            return $row['vm_group_id'];
+
+        }
+    }
+
+    return 0;
+}
+
 function getGrpDetailsByGrpId($g_id)
 {
     $db= new db_util();
@@ -308,10 +335,7 @@ function isPermenentInGrp($u_id)
 
         $db = new db_util();
 
-        $sql = "SELECT * 
-	    FROM vm_member_list 
-	    WHERE vm_member_id=$u_id 
-	    AND vm_member_type = 'permanent'";
+        $sql = "SELECT vm_group_id FROM vm_member_list WHERE vm_member_id=$u_id";
 
         $result = $db->query($sql);
         if ($result !== false) {
@@ -320,11 +344,69 @@ function isPermenentInGrp($u_id)
             if ($result->num_rows > 0) {
 
                 $row = $result->fetch_assoc();
-
+                if($row['vm_group_id']==NULL)
+                {
+                    return -99;
+                }
+                //die();
                 return $row['vm_group_id'];
 
             }
 
         }
     }
+}
+
+//shafee
+function isLeaderGrp($grpId)
+{
+    $u_id = $_COOKIE[$GLOBALS['c_id']];
+    // echo $grpId;
+    $db = new db_util();
+    $sql = "SELECT v_group_leader_id FROM vm_group WHERE v_group_id=$grpId";
+    $result = $db->query($sql);
+
+    if ($result !== false) {
+        // if there any error in sql then it will false
+        //
+        if ($result->num_rows > 0) {
+
+            $row = $result->fetch_assoc();
+            // echo $row['v_group_leader_id'];
+            if ($row['v_group_leader_id'] == $u_id) {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+    }
+}
+
+/**
+ * Send a e-mail
+ * NOTE: If utf-8 error occur, try:
+ * http://php.net/manual/en/function.mb-send-mail.php
+ * http://stackoverflow.com/questions/7266935/how-to-send-utf-8-email.
+ *
+ * @param [type] $to      [description]
+ * @param [type] $subject [description]
+ * @param [type] $message [description]
+ *
+ * @return bool
+ */
+function _send_email($to)
+{
+    $subject = "Volunteer Management - Someone needed Help!";
+
+    $message = "Please comeback! Someone need help!";
+
+    $subject = "=?UTF-8?B?" . base64_encode($subject) . "?=";
+
+    $headers[] = 'From: Team Shunno <no-replay@' . $GLOBALS['c_domain'] . '>';
+    $headers[] = 'Content-Type: text/html; charset=UTF-8';
+
+    return mail($to, $subject, $message, implode("\r\n", $headers));
 }

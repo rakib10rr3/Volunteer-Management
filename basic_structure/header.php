@@ -3,6 +3,10 @@
 
     include_once 'func.php';
 
+$__user_id = (isset($_COOKIE[$GLOBALS['c_id']])) ? $_COOKIE[$GLOBALS['c_id']] : "0";
+$__user_name = (isset($_COOKIE[$GLOBALS['c_name']]))?$_COOKIE[$GLOBALS['c_name']]:"0";
+$__user_email = (isset($_COOKIE[$GLOBALS['c_email']]))?$_COOKIE[$GLOBALS['c_email']]:"0";
+
 /***
  * Generally common files should be added here, as this file is added to every other page.
  */

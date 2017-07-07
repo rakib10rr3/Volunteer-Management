@@ -74,11 +74,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$disaster->setLocation($location);
 		$disaster->setStart($start);
 		$disaster->setExpire($expire);
+		$disaster->setdisaster_created_by($GLOBALS['__user_id']);
+
+		$___group_id = getGrpIdByUserId($GLOBALS['__user_id']);
+
+		$disaster->setdisaster_added_by_group($___group_id);
 
 		$result = $disaster->add();
 
 		if($result!== false)
 		{
+		    //$location
+
+            $db=new db_util();
+
+            $sql_string="SELECT * from vm_group WHERE v_group_place = $location";
+
+            $result=$db->query($sql_string);
+            if($result!=false)
+            {
+                if($result->num_rows>0) {
+
+                    while($row = $result->fetch_assoc()) {
+                        $user = new User();
+
+                        $_email = $user->get_email_by_id($row['v_group_leader_id']);
+
+//                        _send_email($_email);
+                    }
+                }
+            }
+
 			$GLOBALS['_isSuccess'] = true;
 			$GLOBALS['_title'] = "Success!";
 			$GLOBALS['_message'] = "You successfully Called for Help!";

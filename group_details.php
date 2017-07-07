@@ -131,6 +131,18 @@ if(isset($_GET['group_id'])) {
 			{
 				echo "<td> <a class='navbar-link' href='join_group.php?group_id=$v_group_id'>Join Group</a></td>";
 			}
+			else
+            {
+                $result_= isPermenentInGrp($u_id);
+                if($result_==$v_group_id)
+                {
+                    echo "You are memeber of this group";
+                }
+                else
+                {
+                    echo "You can't join in this group, u are already member of a group";
+                }
+            }
 			
 		}
 	}

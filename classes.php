@@ -29,8 +29,7 @@ class User
 
         $result = $db->query($sql);
 
-        if($result===false)
-        {
+        if ($result === false) {
             return true;
         }
 
@@ -65,7 +64,7 @@ class User
         $_email = $this->email;
         $_pass = $this->password;
 
-        echo $db->getError();
+//        echo $db->getError();
 
         $stmt->bind_param('sss', $_name, $_email, $_pass);
 
@@ -75,8 +74,7 @@ class User
             $new_user_id = $stmt->insert_id;
             return $new_user_id;
         }
-        
-        
+
 
         return false; // anything wrong then return 0
 
@@ -197,35 +195,31 @@ class User
 
         return $this;
     }
+
     public function get_name_by_id($id)
     {
-        $sql_string="SELECT * FROM vm_member_list WHERE vm_member_id= $id";
-        $db=new db_util();
-        $result=$db->query($sql_string);
-        if($result)
-        {
-            $row=mysqli_fetch_assoc($result);
-            $name=$row['vm_member_name'];
+        $sql_string = "SELECT * FROM vm_member_list WHERE vm_member_id= $id";
+        $db = new db_util();
+        $result = $db->query($sql_string);
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            $name = $row['vm_member_name'];
             return $name;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
+
     public function get_email_by_id($id)
     {
-        $sql_string="SELECT * FROM vm_users WHERE user_email= $id";
-        $db=new db_util();
-        $result=$db->query($sql_string);
-        if($result)
-        {
-            $row=mysqli_fetch_assoc($result);
-            $name=$row['user_email'];
+        $sql_string = "SELECT * FROM vm_users WHERE user_email= $id";
+        $db = new db_util();
+        $result = $db->query($sql_string);
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            $name = $row['user_email'];
             return $name;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -242,7 +236,6 @@ class Group
     private $grpLeader;
 
 
-
     public function __construct()
     {
 
@@ -256,7 +249,8 @@ class Group
 
         // Check all value exist!
         if ($this->grpName == "" || $this->grpPlace == "" || $this->grpDescription == "" || $this->grpServices == "" ||
-            $this->grpLeader == "") {
+            $this->grpLeader == ""
+        ) {
             return 0; // all value not found!
         }
 
@@ -426,22 +420,49 @@ class Group
         $this->grpServices = implode(", ", $services);
         return $this;
     }
+
     public function get_group_name_by_leader_id($id)
     {
-        $sql_string="SELECT * FROM vm_group WHERE v_group_leader_id= $id";
-        $db=new db_util();
-        $result=$db->query($sql_string);
-        if($result)
-        {
-            $row=mysqli_fetch_assoc($result);
-            $name=$row['v_group_name'];
-            $group_id=$row['v_group_id'];
-            return array($name,$group_id);
+        $sql_string = "SELECT * FROM vm_group WHERE v_group_leader_id= $id";
+        $db = new db_util();
+        $result = $db->query($sql_string);
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            $name = $row['v_group_name'];
+            $group_id = $row['v_group_id'];
+            return array($name, $group_id);
+        } else {
+            return array("Unknown", "0");
         }
-        else
-        {
+    }
+
+    public function get_group_name_by_group_id($id)
+    {
+        $sql_string = "SELECT * FROM vm_group WHERE v_group_id= $id";
+        $db = new db_util();
+        $result = $db->query($sql_string);
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            $name = $row['v_group_name'];
+            return $name;
+        } else {
             return false;
         }
+    }
+
+    public function get_group_place_by_group_id($id)
+    {
+        $sql_string = "SELECT * FROM vm_group WHERE v_group_id= $id";
+        $db = new db_util();
+        $result = $db->query($sql_string);
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            $name = $row['v_group_place'];
+            return $name;
+        } else {
+            return false;
+        }
+
     }
 
 }
@@ -464,7 +485,7 @@ class Member
 
     }
 
-    public  function remove_member_from_group($member_id,$group_id)
+    public function remove_member_from_group($member_id, $group_id)
     {
         $db = new db_util();
 
@@ -472,12 +493,9 @@ class Member
         FROM vm_member_list
         WHERE vm_group_id= $group_id AND vm_member_list_id = $member_id";
         $result = $db->query($sql);
-        if($result !=false)
-        {
+        if ($result != false) {
             return $result;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -487,14 +505,14 @@ class Member
         $db = new db_util();
 
 
-        $memUpdate = $db->prepare('UPDATE vm_member_list SET vm_member_name = ?,  vm_member_phone = ?, vm_member_type = ? , vm_member_age = ?, vm_member_gender = ? WHERE vm_member_id = '.$this->memberID);
+        $memUpdate = $db->prepare('UPDATE vm_member_list SET vm_member_name = ?,  vm_member_phone = ?, vm_member_type = ? , vm_member_age = ?, vm_member_gender = ? WHERE vm_member_id = ' . $this->memberID);
 
         $_memberName = $this->memberName;
         $_memberPhone = $this->memberPhone;
         $_memberType = $this->memberType;
         $_memberAge = $this->memberAge;
         $_memberGender = $this->memberGender;
-       // $_memberInterest = $this->memberInterest;
+        // $_memberInterest = $this->memberInterest;
         // echo $db->getError();
 
         $memUpdate->bind_param('sssis', $_memberName, $_memberPhone, $_memberType, $_memberAge, $_memberGender);
@@ -502,9 +520,9 @@ class Member
         $result = $memUpdate->execute();
 
         if ($result === true) {
-           // $new_user_id = $memUpdate->insert_id;
-            header("Location:profile.php?id=".$this->memberID);
-           // return $new_user_id;
+            // $new_user_id = $memUpdate->insert_id;
+            header("Location:profile.php?id=" . $this->memberID);
+            // return $new_user_id;
         }
 
         return false; // anything wrong then return 0
@@ -515,7 +533,7 @@ class Member
 
         // make new db object
         $db = new db_util();
-        
+
         $memUpdate = $db->prepare('UPDATE vm_member_list 
             SET vm_group_id = ?,  vm_member_type = ?
             WHERE vm_member_id = ?');
@@ -540,7 +558,7 @@ class Member
 
         // make new db object
         $db = new db_util();
-        
+
         $memUpdate = $db->prepare('UPDATE vm_member_list 
             SET vm_group_id = ?
             WHERE vm_member_id = ?');
@@ -595,6 +613,7 @@ class Member
         return false; // anything wrong then return 0
 
     }
+
     public function getMemberId()
     {
         return $this->memberID;
@@ -611,6 +630,7 @@ class Member
 
         return $this;
     }
+
     public function setGroup_id($id)
     {
         $this->memberID = $id;
@@ -682,16 +702,11 @@ class Member
     {
         return $this->memberPhone;
     }
+
     public function setMemberPhone($phone)
     {
         $this->memberPhone = $phone;
 
-        return $this;
-    }
-
-    public function setMemberType($memType)
-    {
-        $this->memberType = $memType;
         return $this;
     }
 
@@ -700,9 +715,9 @@ class Member
         return $this->memberType;
     }
 
-    public function setMemberGender($memGender)
+    public function setMemberType($memType)
     {
-        $this->memberGender = $memGender;
+        $this->memberType = $memType;
         return $this;
     }
 
@@ -711,15 +726,21 @@ class Member
         return $this->memberGender;
     }
 
-    public function setMemberAge($memAge)
+    public function setMemberGender($memGender)
     {
-        $this->memberAge = $memAge;
+        $this->memberGender = $memGender;
         return $this;
     }
 
     public function getMemberAge()
     {
         return $this->memberAge;
+    }
+
+    public function setMemberAge($memAge)
+    {
+        $this->memberAge = $memAge;
+        return $this;
     }
 
 
@@ -740,33 +761,51 @@ class Member
 
 class Disaster {
 
-/*
-    vm_disaster_id int not null auto_increment
-        primary key,
-    vm_disaster_name varchar(256) not null,
-    vm_disaster_locations  varchar(256) not null,
-    vm_disaster_type int not null,
-    vm_disaster_start DATETIME not null,
-    vm_disaster_expire  DATETIME not null
-    */
-   
-    const disaster_type = array(
-        1 => "Flood", 
-        2 => "Cyclone", 
-        3 => "Hill", 
-        4 => "Donation"
-        );
+    /*
+        vm_disaster_id int not null auto_increment
+            primary key,
+        vm_disaster_name varchar(256) not null,
+        vm_disaster_locations  varchar(256) not null,
+        vm_disaster_type int not null,
+        vm_disaster_start DATETIME not null,
+        vm_disaster_expire  DATETIME not null
+        */
 
-   
+    const disaster_type = array(
+        1 => "Flood",
+        2 => "Cyclone",
+        3 => "Hill",
+        4 => "Donation"
+    );
+
+
     private $id;
     private $name;
     private $location;
     private $type;
     private $start;
     private $expire;
+    private $vm_disaster_created_by;
+    private $vm_disaster_added_by_group;
 
     public function __construct()
     {
+
+    }
+
+    public function get_all_disaster_by_group_place_id($group_place_id)
+    {
+
+        $sql_string = "SELECT * from vm_disaster WHERE vm_disaster_locations=$group_place_id ORDER  BY vm_disaster_start DESC ";
+        $db = new db_util();
+        $result = $db->query($sql_string);
+        if ($result != false) {
+            if ($result->num_rows > 0) {
+                return $result;
+            }
+        } else {
+            return false;
+        }
 
     }
 
@@ -778,8 +817,13 @@ class Disaster {
     public function add()
     {
 
+
         // Check all value exist!
-        if ($this->name == "" || $this->location == "" || $this->type == "" || $this->start == "" || $this->expire == "") {
+        if ($this->name == "" || $this->location == "" || $this->type == "" || $this->start == "" || $this->expire == ""
+            || $this->vm_disaster_created_by == "" || $this->vm_disaster_added_by_group == "") {
+
+//            echo $this->vm_disaster_created_by;
+//            echo $this->vm_disaster_added_by_group;
             return false; // all value not found!
         }
 
@@ -787,18 +831,21 @@ class Disaster {
         $db = new db_util();
 
 
-        $stmt = $db->prepare('INSERT INTO vm_disaster(vm_disaster_name, vm_disaster_locations, vm_disaster_type, vm_disaster_start, vm_disaster_expire)
-            VALUES(?, ?, ?, ?, ?)');
+        $stmt = $db->prepare('INSERT INTO vm_disaster(vm_disaster_name, vm_disaster_locations, vm_disaster_type, vm_disaster_start, vm_disaster_expire,
+vm_disaster_created_by, vm_disaster_added_by_group)
+            VALUES(?, ?, ?, ?, ?, ?, ?)');
 
         $_name = $this->name;
         $_location = $this->location;
         $_type = $this->type;
         $_start = $this->start;
         $_expire = $this->expire;
+        $_vm_disaster_created_by = $this->vm_disaster_created_by;
+        $_vm_disaster_added_by_group = $this->vm_disaster_added_by_group;
 
         //echo $db->getError();
 
-        $stmt->bind_param('sssss', $_name, $_location, $_type, $_start, $_expire);
+        $stmt->bind_param('sssssii', $_name, $_location, $_type, $_start, $_expire, $_vm_disaster_created_by, $_vm_disaster_added_by_group);
 
         $result = $stmt->execute();
 
@@ -815,7 +862,28 @@ class Disaster {
     {
         return self::disaster_type[$disaster_id];
     }
+    /*
+     *     private $vm_disaster_created_by;
+        private vm_disaster_added_by_group;
+     */
 
+    public function setdisaster_added_by_group($id)
+    {
+        $this->vm_disaster_added_by_group = $id;
+
+        return $this;
+    }
+
+
+    public function setdisaster_created_by($id)
+    {
+        $this->vm_disaster_created_by = $id;
+
+        return $this;
+    }
+
+
+// --------------------------------
 
     /**
      * @return mixed
@@ -952,8 +1020,10 @@ class Disaster {
         }
         else
         {
-           return false;
+            return false;
         }
+
+        return false;
 
 
     }
@@ -962,21 +1032,23 @@ class Disaster {
 
 class Messages
 {
-    function __construct()
-    {
-
-    }
     private $message_text;
     private $message_disaster_id;
     private $message_to_group;
     private $message_from_member_id;
 
+    function __construct()
+    {
+
+    }
+
     public function set_message_text($id)
     {
         $this->message_text = $id;
-        echo "message_set to ".$this->message_text;
+//        echo "message_set to " . $this->message_text;
         return $this;
     }
+
     public function set_message_disaster_id($id)
     {
         $this->message_disaster_id = $id;
@@ -984,14 +1056,16 @@ class Messages
         //echo "message_set to ".$this->message_text;
         return $this;
     }
+
     public function set_message_to_group($id)
     {
         $this->message_to_group = $id;
         return $this;
     }
+
     public function set_message_from_member_id($id)
     {
-        $this->message_from_member_id=$id;
+        $this->message_from_member_id = $id;
         return $this;
     }
 
@@ -999,8 +1073,8 @@ class Messages
     {
 
         // Check all value exist!
-        if (empty($this->message_text) ||empty($this->message_disaster_id )||empty($this->message_to_group ) ||empty($this->message_from_member_id)) {
-            echo "sad -_-";
+        if (empty($this->message_text) || empty($this->message_disaster_id) || empty($this->message_to_group) || empty($this->message_from_member_id)) {
+//            echo "sad -_-";
             return false; // all value not found!
         }
 
@@ -1014,7 +1088,7 @@ class Messages
         $_group_id = $this->message_to_group;
         $_member_id = $this->message_from_member_id;
 
-        echo $_message ." ",$_disaster_post_id ." ".$_group_id." ".$_member_id."\n";
+//        echo $_message . " ", $_disaster_post_id . " " . $_group_id . " " . $_member_id . "\n";
 
         //echo $db->getError();
 
@@ -1024,12 +1098,12 @@ class Messages
 
 
         if ($result === true) {
-                /*    $new_user_id = $stmt->insert_id;
-                    return $new_user_id;
-                */
+            /*    $new_user_id = $stmt->insert_id;
+                return $new_user_id;
+            */
 
-                    return true;
-                }
+            return true;
+        }
 
 
         return false; // anything wrong then return 0
@@ -1037,3 +1111,84 @@ class Messages
     }
 
 }
+
+class Response
+{
+
+    public function is_user_responded($user_id, $grp_id)
+    {
+        $sql_string = "SELECT * 
+FROM vm_response 
+WHERE vm_response_of_group=$grp_id 
+AND vm_response_user_id=$user_id";
+
+        $db = new db_util();
+        $result = $db->query($sql_string);
+        if ($result !== false) {
+            if ($result->num_rows > 0) {
+                return true;
+            }
+        }
+
+        return false;
+
+
+    }
+
+    public function remove_user_from_response($user_id, $disaster_id)
+    {
+        $sql_string = "DELETE FROM vm_response 
+WHERE vm_response_of_disaster=$disaster_id AND vm_response_user_id=$user_id";
+        $db = new db_util();
+        $result = $db->query($sql_string);
+        if ($result != false) {
+            if ($result->num_rows > 0) {
+                return $result;
+            }
+        } else {
+            return false;
+        }
+
+    }
+
+    public function add_user_to_the_response($user_id, $group_id, $disaster_id)
+    {
+        $db = new db_util();
+
+        $stmt = $db->prepare('INSERT INTO  vm_response(vm_response_of_group, vm_response_of_disaster, vm_response_user_id)
+VALUES(?, ?, ?)');
+
+        $_user_id = $user_id;
+        $_group_id = $group_id;
+        $_disaster_id = $disaster_id;
+
+//        echo $db->getError();
+
+        $stmt->bind_param('iii', $_group_id, $_disaster_id, $_user_id);
+
+        $result = $stmt->execute();
+
+        if ($result === true) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function return_all_the_response($disaster_id)
+    {
+
+        $sql_string = "SELECT * FROM vm_response WHERE vm_response_of_disaster=$disaster_id";
+        $db = new db_util();
+        $result = $db->query($sql_string);
+        if ($result !== false) {
+            if ($result->num_rows > 0) {
+                return $result;
+            }
+        }
+
+        return false;
+
+    }
+}
+

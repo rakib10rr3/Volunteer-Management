@@ -49,6 +49,16 @@ body {
 	font-weight: bold;
 }
 
+.ts-disaster-subtitle {
+	margin: 2px 0;
+	font-size: 13px;
+	color: #333;
+}
+
+.ts-text-bold {
+	font-weight: bold;
+}
+
 .ts-disaster-type {
 	margin: 2px 0;
 	font-size: 14px;
